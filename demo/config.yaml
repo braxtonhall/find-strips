@@ -1,11 +1,11 @@
 # The site's configuration: what this archive is called, how it looks, and where it links out to.
 #
-# Any value can read the build's environment — the process's, else `.env` — as `$NAME` or
+# Any value can read the build's environment — the process's, else `.env` in the folder the build runs from — as `$NAME` or
 # `${NAME}`, with `${NAME:-fallback}` for a value to use when it is unset or empty. `$$` is a
 # literal `$`. A setting that comes out empty is left unset.
 #
 # The deployment settings below read the environment by default, so a fork that only moves the site
-# somewhere else can do it from `.env` (copy `.env.sample`), or the repository's Actions variables
+# somewhere else can do it from a `.env` file, or the repository's Actions variables
 # of the same names, without touching this file.
 
 name: Find the Demo Strip

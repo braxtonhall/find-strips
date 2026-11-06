@@ -138,7 +138,7 @@ export function createWebpackConfig({ outDir, mode }: WebpackConfigOptions): Con
 			new MiniCssExtractPlugin({ filename: "[name].css" }),
 			new PagesPlugin(path.join(srcDir, "index.html")),
 			// The engine's own copies of the static files, for any the site does not provide.
-			new SiteFilesPlugin(buildChainDir),
+			new SiteFilesPlugin(),
 		],
 	};
 }

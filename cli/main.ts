@@ -9,7 +9,7 @@ const USAGE = `find-strips <command> [options]
   build <config> <outDir>      Build the site the configuration describes into outDir.
         --mode <mode>          production (default) or development
         --watch                rebuild as the configuration and its files change
-        --env-file <path>      read $NAME values from this file in place of .env beside the config
+        --env-file <path>      read $NAME values from this file in place of .env in the current folder
   serve <dir> [--port <n>]     Serve a built site, to look at it locally.
   check <config>               Load and validate the configuration and every file it imports.
         --env-file <path>

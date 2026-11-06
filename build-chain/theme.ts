@@ -122,7 +122,7 @@ export function themeCss(theme: Theme): string {
 
 /**
  * Stands in for `src/styles/theme.css`, which holds nothing but a note saying so: the theme from
- * `config.yaml`, rebuilt under `--watch` when the file or `.env` changes.
+ * `config.yaml`, rebuilt under `--watch` when the file or the env file changes.
  */
 export default function themeLoader(this: LoaderContext<unknown>): string {
 	watchConfig(this);

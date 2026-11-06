@@ -4,7 +4,6 @@ import type { Compiler, Compilation } from "webpack";
 import { sources } from "webpack";
 import { buildManifest, emitFavicon } from "./favicon";
 import {
-	configPath,
 	watchConfigIn,
 	loadFaviconFile,
 	loadLandingFile,
@@ -18,7 +17,7 @@ const PLUGIN_NAME = "SiteFilesPlugin";
 /**
  * Emits the site's static files that depend on `SITE_URL`: `robots.txt` and the `CNAME` file for a
  * GitHub Pages custom domain. And the home page's banner, where `config.yaml` names it by its path,
- * and the web app manifest, with the icons drawn from the favicon where it names that by its path. Reads `config.yaml` and `.env` fresh on every compilation and watches
+ * and the web app manifest, with the icons drawn from the favicon where it names that by its path. Reads `config.yaml` and the env file fresh on every compilation and watches
  * them, so `--watch` rebuilds when the configured URL changes. When no `SITE_URL` is set, the sitemap reference and
  * `CNAME` are omitted and the site deploys to the default `*.github.io`. The sitemap itself is
  * `PagesPlugin`'s, since it is a list of the pages that plugin writes.
@@ -27,15 +26,7 @@ const PLUGIN_NAME = "SiteFilesPlugin";
  * would serve it from the root, and `user.github.io` in the file is a domain GitHub refuses.
  */
 class SiteFilesPlugin {
-	/**
-	 * @param defaultsDir where the engine's own copies of the static files are, used for any the site
-	 *   does not provide in a `static/` folder beside its configuration file.
-	 */
-	constructor(private readonly defaultsDir: string) {}
-
 	apply(compiler: Compiler): void {
-		const defaultsDir = this.defaultsDir;
-
 		compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: Compilation) => {
 			watchConfigIn(compilation);
 
@@ -49,8 +40,7 @@ class SiteFilesPlugin {
 					const siteUrl = config?.siteUrl ?? "";
 					const basePath = config?.basePath ?? "/";
 
-					const own = path.join(path.dirname(configPath()), "static", "robots.txt");
-					const robotsFile = fs.existsSync(own) ? own : path.join(defaultsDir, "robots.txt");
+					const robotsFile = path.join(__dirname, "robots.txt");
 					compilation.fileDependencies.add(robotsFile);
 					const robotsSource = fs.readFileSync(robotsFile, "utf8");
 					const robotsLines = siteUrl

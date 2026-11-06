@@ -75,13 +75,12 @@ const results = search("kite oak", { sort: "rank", tuning: { sequenceWeight: 2 }
 
 Everything about the site and its archive is in one YAML file, and the comments in
 [`demo/config.yaml`](demo/config.yaml) explain each setting. Any value can read the environment as `$NAME`,
-`${NAME}` or `${NAME:-fallback}`: from the process's, else from `.env` beside the configuration file, or the
-file `--env-file` names. `SITE_URL` sets the site's address, which turns on its canonical tags, sitemap and
+`${NAME}` or `${NAME:-fallback}`: from the process's, else from `.env` in the folder the build runs from, or the
+file `--env-file` names in its place. `SITE_URL` sets the site's address, which turns on its canonical tags, sitemap and
 `CNAME`, and can mount it under a path (`https://example.com/strip/`). The mount is compiled into the
 bundle, so changing it needs a fresh build rather than a `--watch` rebuild.
 
-Files the build writes beside the pages can be overridden from a `static/` folder next to the configuration
-file: today `robots.txt`, with `{{siteUrl}}` and `{{basePath}}` filled in.
+The build also writes a `robots.txt` (and a `CNAME` where the site is served from a domain's root) from `SITE_URL`.
 
 ### Images
 

@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "fs";
+import os from "os";
 import path from "path";
 import {
 	configDependencies,
@@ -73,6 +74,42 @@ test("config.yaml", async (suite) => {
 		assert.equal(config.landingSize, null);
 		assert.deepEqual(config.details.daily, [{ title: "Read", href: "https://read.test/{{strip.year}}/$" }]);
 	});
+
+	await suite.test(
+		"reads `.env` from the current folder, never one beside the configuration, unless an env file is named in its place",
+		() => {
+			const yaml = "name: ${TEST_SITE_FILE:-from the fallback}\nseries: Peanuts\n";
+			const files = { ".env": "TEST_SITE_FILE=beside\n", "named.env": "TEST_SITE_FILE=named\n" };
+			const nameWith = (
+				envFile: string | undefined,
+				pick: (projectDir: string) => string | undefined = () => envFile,
+			) =>
+				withConfig(
+					yaml,
+					(config, projectDir) =>
+						withEnvironment({ TEST_SITE_FILE: undefined, SITE_ENV_FILE: pick(projectDir) }, () =>
+							loadPageConfig(config),
+						).name,
+					files,
+				);
+			assert.equal(nameWith(undefined), "from the fallback");
+			const cwd = process.cwd();
+			const elsewhere = fs.mkdtempSync(path.join(os.tmpdir(), "cwd-"));
+			fs.writeFileSync(path.join(elsewhere, ".env"), "TEST_SITE_FILE=cwd\n");
+			try {
+				process.chdir(elsewhere);
+				assert.equal(nameWith(undefined), "cwd");
+			} finally {
+				process.chdir(cwd);
+				fs.rmSync(elsewhere, { recursive: true, force: true });
+			}
+			assert.equal(
+				nameWith("", (dir) => path.join(dir, "named.env")),
+				"named",
+			);
+			assert.throws(() => nameWith("", (dir) => path.join(dir, "missing.env")), /could not be read/);
+		},
+	);
 
 	await suite.test("leaves a landing image that comes out empty unset", () => {
 		const config = withEnvironment({ TEST_SITE_BANNER: undefined }, () =>
@@ -189,28 +226,31 @@ test("config.yaml", async (suite) => {
 		);
 	});
 
-	await suite.test("watches config.yaml, what it imports however deep, .env, and the folders it maps over", () => {
-		withConfig(
-			"comics: !Import ./comics/index.yaml\ncollections: !Map [Import, ./books/*.yaml]\n",
-			(config, projectDir) => {
-				assert.deepEqual(configDependencies(config), {
-					files: [
-						config,
-						path.join(projectDir, "comics", "index.yaml"),
-						path.join(projectDir, "comics", "specials", "one.yaml"),
-						path.join(projectDir, "books", "one.yaml"),
-						path.join(projectDir, ".env"),
-					],
-					directories: [path.join(projectDir, "comics", "specials"), path.join(projectDir, "books")],
-				});
-			},
-			{
-				"comics/index.yaml": "specials: !Map [Import, ./specials/*.yaml]\n",
-				"comics/specials/one.yaml": "{}\n",
-				"books/one.yaml": "{}\n",
-			},
-		);
-	});
+	await suite.test(
+		"watches config.yaml, what it imports however deep, .env in the current folder, and the folders it maps over",
+		() => {
+			withConfig(
+				"comics: !Import ./comics/index.yaml\ncollections: !Map [Import, ./books/*.yaml]\n",
+				(config, projectDir) => {
+					assert.deepEqual(configDependencies(config), {
+						files: [
+							config,
+							path.join(projectDir, "comics", "index.yaml"),
+							path.join(projectDir, "comics", "specials", "one.yaml"),
+							path.join(projectDir, "books", "one.yaml"),
+							path.resolve(".env"),
+						],
+						directories: [path.join(projectDir, "comics", "specials"), path.join(projectDir, "books")],
+					});
+				},
+				{
+					"comics/index.yaml": "specials: !Map [Import, ./specials/*.yaml]\n",
+					"comics/specials/one.yaml": "{}\n",
+					"books/one.yaml": "{}\n",
+				},
+			);
+		},
+	);
 
 	// `../`, which from the project itself would leave it: so the path is the importing file's.
 	await suite.test("reads an import's path from the file it is written in", () => {

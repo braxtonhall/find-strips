@@ -9,7 +9,7 @@ import path from "path";
 export interface Environment {
 	/** The configuration file, relative to where this runs. */
 	config: string;
-	/** The env file to read in place of `.env` beside the configuration, relative to where this runs. */
+	/** The env file to read in place of `.env` in the folder this runs from, relative to that folder. */
 	envFile?: string;
 }
 

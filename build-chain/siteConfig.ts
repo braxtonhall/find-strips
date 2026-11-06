@@ -28,21 +28,21 @@ export interface SiteConfig {
 }
 
 /**
- * The `.env` file a configuration reads: the one `SITE_ENV_FILE` names, relative to where it runs
- * (`--env-file` sets it), else `.env` in the configuration's own folder.
+ * The env file a build reads: the file `SITE_ENV_FILE` names (`--env-file` sets it), else `.env` in
+ * the folder the build runs from. Only the first is required to exist.
  */
-export function envFilePath(config = configPath()): string {
+export function envFilePath(): string {
 	const named = (process.env.SITE_ENV_FILE ?? "").trim();
-	return named ? path.resolve(named) : path.join(path.dirname(config), ".env");
+	return path.resolve(named || ".env");
 }
 
 /**
- * Reads the `.env` file without mutating `process.env`, so the value can be re-read fresh on every
- * compilation (which lets `--watch` pick up edits to `.env`). A non-empty value already in the
+ * Reads the env file without mutating `process.env`, so the value can be re-read fresh on every
+ * compilation (which lets `--watch` pick up edits to it). A non-empty value already in the
  * process environment — as CI supplies it — takes precedence over the file.
  */
-function readDotenvFile(config: string): Record<string, string> {
-	const file = envFilePath(config);
+function readDotenvFile(): Record<string, string> {
+	const file = envFilePath();
 	let contents: string;
 	try {
 		contents = fs.readFileSync(file, "utf8");
@@ -72,7 +72,7 @@ function readDotenvFile(config: string): Record<string, string> {
 	return values;
 }
 
-/** An environment variable: the process environment when it has one, else the `.env` file, else "". */
+/** An environment variable: the process environment when it has one, else the env file, else "". */
 function readSetting(name: string, dotenv: Record<string, string>): string {
 	const fromEnvironment = (process.env[name] ?? "").trim();
 	const fromFile = (dotenv[name] ?? "").trim();
@@ -392,7 +392,7 @@ function resolved(value: unknown): unknown {
 }
 
 /**
- * Read fresh on every call, as `.env` is, so `--watch` picks up an edit to either. Small, since what
+ * Read fresh on every call, as the env file is, so `--watch` picks up an edit to either. Small, since what
  * it imports is left unread until it is asked for.
  *
  * The environment is read into what `config.yaml` writes, but never into what it imports: `$5` in a
@@ -402,12 +402,12 @@ function readConfig(file = configPath()): RawConfig {
 	const schema = importSchema({ file, importing: [], lazy: true });
 	const parsed = yaml.load(fs.readFileSync(file, "utf8"), { schema, filename: file }) ?? {};
 	if (typeof parsed !== "object" || Array.isArray(parsed)) throw new Error(`${file} must be a mapping`);
-	return substituteAll(parsed, readDotenvFile(path.resolve(file))) as RawConfig;
+	return substituteAll(parsed, readDotenvFile()) as RawConfig;
 }
 
 /**
  * What a build that reads the configuration depends on, for `--watch`: `config.yaml`, every file it
- * imports however deep, and `.env`, which any value can read; and every folder a `!Map` looks in, so
+ * imports however deep, and the env file, which any value can read; and every folder a `!Map` looks in, so
  * that a file added to one is found.
  *
  * A YAML file is parsed for its own imports only where it has a tag in it at all, so this does not
@@ -430,7 +430,7 @@ export function configDependencies(config = configPath()): ConfigDependencies {
 		}
 	};
 	visit(readConfig(config));
-	dependencies.files.push(envFilePath(config));
+	dependencies.files.push(envFilePath());
 	return dependencies;
 }
 
@@ -1028,7 +1028,7 @@ function pageConfig(raw: RawConfig, config?: string): PageConfig {
 
 /**
  * Stands in for `src/site-config.ts` in the bundle, as `archiveSpan.ts` does for `src/archive.ts`.
- * Watches `.env` too, since any value in the configuration can read it.
+ * Watches the env file too, since any value in the configuration can read it.
  */
 export default function siteConfigLoader(this: LoaderContext<unknown>): string {
 	watchConfig(this);
