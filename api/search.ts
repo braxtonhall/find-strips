@@ -41,3 +41,7 @@ export function createSearch(
 
 export type { Compounds, SearchResult, Tuning, HighlightRange } from "../src/search";
 export type { Comic, SortMode } from "../src/types";
+export { search } from "../src/search";
+export { stem } from "../src/stem";
+export { parseQuery } from "../src/boolean-query";
+export { parseDateExpression } from "../src/date-query";

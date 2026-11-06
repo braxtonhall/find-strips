@@ -16,6 +16,9 @@ declare function require(id: string): unknown;
 export function loadSite(config: string, options: { envFile?: string } = {}): Site {
 	return withEnvironment({ config, envFile: options.envFile }, () => {
 		const { readSite } = require("./siteImpl") as typeof import("./siteImpl");
-		return readSite();
+		const site = readSite();
+		// The search reads the configuration as it loads too, so it is loaded here, where it can.
+		require("../src/search");
+		return site;
 	});
 }
