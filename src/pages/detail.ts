@@ -724,7 +724,7 @@ function namedLineHtml(icon: MetaKind, lead: string, links: string[]): string {
 }
 
 /**
- * `By Bill Watterson`, or `By Jerry Scott (story) and Jim Borgman (art)`, in the order the strip's
+ * `By Bill Author`, or `By Jerry Scott (story) and Jim Borgman (art)`, in the order the strip's
  * credit lists them.
  */
 function buildByLineHtml(page: DetailPage, comic: Comic): string {
@@ -738,7 +738,7 @@ function buildByLineHtml(page: DetailPage, comic: Comic): string {
 	return namedLineHtml("by", "By", links);
 }
 
-/** `Featuring Calvin, Hobbes and Dad`, in the order the characters' file lists them. */
+/** `Featuring Tobias, Marlow and Dad`, in the order the characters' file lists them. */
 function buildFeaturingLineHtml(page: DetailPage, comic: Comic): string {
 	const links = page.characters
 		.filter((character) => comic.characters?.includes(character.id))

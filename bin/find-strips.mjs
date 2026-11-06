@@ -7,7 +7,12 @@ import path from "node:path";
 
 const child = spawn(
 	process.execPath,
-	["--import", import.meta.resolve("tsx"), path.join(import.meta.dirname, "..", "cli", "main.ts"), ...process.argv.slice(2)],
+	[
+		"--import",
+		import.meta.resolve("tsx"),
+		path.join(import.meta.dirname, "..", "cli", "main.ts"),
+		...process.argv.slice(2),
+	],
 	{ stdio: "inherit", cwd: process.cwd() },
 );
 child.on("exit", (code, signal) => process.exit(signal ? 1 : (code ?? 0)));

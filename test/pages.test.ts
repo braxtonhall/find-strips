@@ -96,7 +96,7 @@ test("a prerendered document", async (suite) => {
 	await suite.test("holds the view its embedded data draws, for a strip", () => {
 		// A Sunday with two printings, a strip with an alternate transcript, and a rerun day are the
 		// busy cases.
-		for (const date of ["1985-11-18", "1986-07-06", "1987-01-07", "1991-05-05", "1995-12-31"]) {
+		for (const date of ["1990-03-05", "1990-03-11", "1990-04-01", "1990-05-06", "1991-01-28"]) {
 			const page = detailPageFrom(source, date);
 			const document = buildDocumentHtml(template, page, { ...options, path: `/${date}` });
 			const embedded = embeddedPage(document);
@@ -179,12 +179,11 @@ test("a prerendered document", async (suite) => {
 		assert.match(view, /id="strips-in"/);
 		assert.match(view, /id="strips-featuring"/);
 		assert.match(view, /id="collections-has"/);
-		// This archive has characters, but no creators and no subjects.
-		assert.doesNotMatch(view, /id="strips-by"/);
-		assert.doesNotMatch(view, /id="strips-about"/);
-		assert.doesNotMatch(view, />@about</);
+		// The demo has characters, creators and subjects, so it explains all three.
+		assert.match(view, /id="strips-by"/);
+		assert.match(view, /id="strips-about"/);
 		assert.match(view, /id="examples"/);
-		assert.match(document, /<title>Searching — Find Calvin and Hobbes<\/title>/);
+		assert.match(document, /<title>Searching — Find the Demo Strip<\/title>/);
 	});
 
 	await suite.test("holds the settings, which are the same for everyone until the app fills them in", () => {
@@ -206,7 +205,7 @@ test("a prerendered document", async (suite) => {
 				["american", "Incorrect"],
 			],
 		);
-		assert.match(document, /<title>Settings — Find Calvin and Hobbes<\/title>/);
+		assert.match(document, /<title>Settings — Find the Demo Strip<\/title>/);
 	});
 
 	await suite.test("holds the view its embedded data draws, for the list of books", () => {
@@ -215,7 +214,7 @@ test("a prerendered document", async (suite) => {
 		const embedded = embeddedPage(document);
 		assert.deepEqual(embedded, page);
 		assert.equal(activeView(document, "collections"), buildViewHtml(embedded, false));
-		assert.match(document, /<title>Books — Find Calvin and Hobbes<\/title>/);
+		assert.match(document, /<title>Books — Find the Demo Strip<\/title>/);
 
 		assert.deepEqual(
 			page.collections.map((collection) => collection.id),
@@ -234,7 +233,7 @@ test("a prerendered document", async (suite) => {
 		const document = buildDocumentHtml(template, arcs, { ...options, path: "/arcs" });
 		assert.deepEqual(embeddedPage(document), arcs);
 		assert.equal(activeView(document, "arcs"), buildViewHtml(arcs, false));
-		assert.match(document, /<title>Arcs — Find Calvin and Hobbes<\/title>/);
+		assert.match(document, /<title>Arcs — Find the Demo Strip<\/title>/);
 
 		for (const arc of source.arcs!) {
 			const page = arcPageFrom(source, arc.id);
@@ -365,7 +364,7 @@ test("a prerendered document", async (suite) => {
 						.get(original)!
 						.map((comic) =>
 							credit(
-								{ ...comic, characters: ["calvin"] },
+								{ ...comic, characters: ["cassius"] },
 								{ id: "scott", role: "story" },
 								{ id: "borgman", role: "art" },
 							),
@@ -373,7 +372,7 @@ test("a prerendered document", async (suite) => {
 				],
 				[special.date, [credit(special, { id: "scott" })]],
 			]),
-			charactersById: new Map([["calvin", { id: "calvin", name: "Calvin", strips: 1, years: [], ranges: [] }]]),
+			charactersById: new Map([["cassius", { id: "cassius", name: "Cassius", strips: 1, years: [], ranges: [] }]]),
 			creatorsById: new Map([
 				creator("borgman", "Jim Borgman", {
 					links: [
@@ -431,21 +430,22 @@ test("a prerendered document", async (suite) => {
 	await suite.test("names who a strip features, each the way to their page, on a special too", () => {
 		// Its own characters, rather than `comics.yaml`'s, which need not list any.
 		const special = [...source.comicsByDate.values()].flat().find((comic) => comic.id)!;
-		const [rerunDate, original] = [...source.reruns][0];
+		// A rerun of a strip after the special, so that the special is where everyone it features first appears.
+		const [rerunDate, original] = [...source.reruns].find(([, original]) => original > special.date)!;
 		const cast = (comic: Comic, ...characters: string[]): Comic => ({ ...comic, characters });
 		const featuring: PageSource = {
 			...source,
 			comicsByDate: new Map([
 				...source.comicsByDate,
-				[original, source.comicsByDate.get(original)!.map((comic) => cast(comic, "dad", "calvin"))],
-				[special.date, [cast(special, "calvin")]],
+				[original, source.comicsByDate.get(original)!.map((comic) => cast(comic, "dad", "cassius"))],
+				[special.date, [cast(special, "cassius")]],
 			]),
 			charactersById: new Map([
-				character("calvin", "Calvin", {
-					image: "/assets/calvin.png",
+				character("cassius", "Cassius", {
+					image: "/assets/cassius.png",
 					specials: [{ id: special.id!, title: "The poster", date: special.date }],
 				}),
-				character("hobbes", "Hobbes", { strips: 0, years: [], ranges: [] }),
+				character("marlow", "Marlow", { strips: 0, years: [], ranges: [] }),
 				character("dad", "Dad"),
 			]),
 		};
@@ -457,12 +457,16 @@ test("a prerendered document", async (suite) => {
 			const page = detailPageFrom(featuring, date);
 			assert.deepEqual(
 				page.characters.map((character) => character.id),
-				["calvin", "dad"],
+				["cassius", "dad"],
 			);
-			assert.ok(buildViewHtml(page, false).includes(`Featuring ${link("calvin", "Calvin")} and ${link("dad", "Dad")}`));
+			assert.ok(
+				buildViewHtml(page, false).includes(`Featuring ${link("cassius", "Cassius")} and ${link("dad", "Dad")}`),
+			);
 		}
 		assert.ok(
-			buildViewHtml(detailPageFrom(featuring, special.date), false).includes(`Featuring ${link("calvin", "Calvin")}<`),
+			buildViewHtml(detailPageFrom(featuring, special.date), false).includes(
+				`Featuring ${link("cassius", "Cassius")}<`,
+			),
 		);
 		// A strip that lists no one has no line.
 		const [unlisted] = [...source.comicsByDate.keys()].filter((date) => date !== original && date !== special.date);
@@ -470,21 +474,21 @@ test("a prerendered document", async (suite) => {
 
 		// The list, by first appearance, each with its portrait's space, and one no strip features yet, last.
 		const list = buildViewHtml(charactersPageFrom(featuring), false);
-		assert.ok(list.indexOf("Calvin") < list.indexOf("Dad") && list.indexOf("Dad") < list.indexOf("Hobbes"));
-		assert.ok(list.includes(`<img class="person-portrait" src="/assets/calvin.png"`));
+		assert.ok(list.indexOf("Cassius") < list.indexOf("Dad") && list.indexOf("Dad") < list.indexOf("Marlow"));
+		assert.ok(list.includes(`<img class="person-portrait" src="/assets/cassius.png"`));
 		assert.ok(list.includes(`<div class="collections-meta">0 strips</div>`));
 		// Their page, as a subject's: a portrait, and every strip they are in as rows, the special too.
-		const page = characterPageFrom(featuring, "calvin");
+		const page = characterPageFrom(featuring, "cassius");
 		assert.deepEqual(
 			page.strips.map((row) => row.comic.id ?? row.comic.date),
 			special.date < original ? [special.id, original] : [original, special.id],
 		);
 		const html = buildViewHtml(page, false);
-		assert.ok(html.includes(`<img class="person-portrait" src="/assets/calvin.png" alt="Calvin" />`));
+		assert.ok(html.includes(`<img class="person-portrait" src="/assets/cassius.png" alt="Cassius" />`));
 		assert.ok(html.includes(`>Characters</a>`));
 		assert.ok(html.includes(`class="arc-strips"`));
 		assert.ok(!html.includes("Date Ranges") && !html.includes(">Roles:") && !html.includes(">Links<"));
-		assert.ok(!buildViewHtml(characterPageFrom(featuring, "hobbes"), false).includes("Years:"));
+		assert.ok(!buildViewHtml(characterPageFrom(featuring, "marlow"), false).includes("Years:"));
 		assert.equal(characterPageFrom(featuring, "nobody").character, null);
 	});
 
@@ -559,18 +563,18 @@ test("a prerendered document", async (suite) => {
 	);
 
 	await suite.test("names itself and where it lives", () => {
-		const document = buildDocumentHtml(template, detailPageFrom(source, "1986-07-07"), {
+		const document = buildDocumentHtml(template, detailPageFrom(source, "1990-03-12"), {
 			...options,
-			path: "/1986-07-07",
+			path: "/1990-03-12",
 		});
-		assert.match(document, /<title>1986-07-07 — Find Calvin and Hobbes<\/title>/);
-		assert.match(document, /<link rel="canonical" href="https:\/\/example.test\/1986-07-07" \/>/);
-		assert.match(document, /<meta property="og:url" content="https:\/\/example.test\/1986-07-07" \/>/);
+		assert.match(document, /<title>1990-03-12 — Find the Demo Strip<\/title>/);
+		assert.match(document, /<link rel="canonical" href="https:\/\/example.test\/1990-03-12" \/>/);
+		assert.match(document, /<meta property="og:url" content="https:\/\/example.test\/1990-03-12" \/>/);
 		assert.doesNotMatch(document, /\{\{\w+\}\}/, "every template token is filled");
 	});
 
 	await suite.test("keeps its data inside its script tag whatever the transcript says", () => {
-		const page = detailPageFrom(source, "1986-07-07");
+		const page = detailPageFrom(source, "1990-03-12");
 		page.comics = [{ ...page.comics[0], transcript: 'Look: </script><script>alert("hi")</script>' }];
 		const document = buildDocumentHtml(template, page, options);
 		assert.deepEqual(embeddedPage(document), page);
@@ -586,8 +590,8 @@ test("the page layout", async (suite) => {
 		assert.equal(pageAssetPath("/credits", "directory"), "credits/index.html");
 		assert.equal(pageAssetPath("/collections", "html"), "collections.html");
 		assert.equal(pageAssetPath("/collections", "directory"), "collections/index.html");
-		assert.equal(pageAssetPath("/collection/yukonho", "html"), "collection/yukonho.html");
-		assert.equal(pageAssetPath("/collection/yukonho", "directory"), "collection/yukonho/index.html");
+		assert.equal(pageAssetPath("/collection/taigabook", "html"), "collection/taigabook.html");
+		assert.equal(pageAssetPath("/collection/taigabook", "directory"), "collection/taigabook/index.html");
 	});
 
 	await suite.test("is html unless told otherwise, and refuses a layout it does not know", () => {

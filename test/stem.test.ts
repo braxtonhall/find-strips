@@ -22,8 +22,8 @@ test("every inflection of a word reduces to one stem", () => {
 	agree("complain", "complains", "complained", "complaining");
 	agree("stand", "stands", "standing");
 	agree("snack", "snacks");
-	agree("calvin", "calvin's");
-	agree("hobbes", "hobbes'");
+	agree("tobias", "tobias's");
+	agree("marlow", "marlow'");
 });
 
 test("a doubled consonant and a dropped silent e both come back", () => {

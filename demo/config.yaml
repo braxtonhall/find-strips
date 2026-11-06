@@ -89,6 +89,7 @@ search:
     - the kite is stuck in the oak
     - soup
     - potato battery
+    - "@about:potato"
     - sandcastle
     - miss hester
     - goose
@@ -109,14 +110,14 @@ search:
       query: march 5 1990
     - question: Which strips did a book print with changes?
       query: "@is:altered"
-    - question: Which Sundays had a potato in them?
-      query: "@about:potato @is:sunday"
+    - question: Which strips are about the potato?
+      query: "@about:potato"
     - question: What ran on Christmas Eve?
       query: "@month:december @day:24"
     - question: Which strips are not in the Treasury?
       query: "@not @in treasury"
-    - question: Which strips is Pip's dad in without Pip?
-      query: "@featuring:dad @not @featuring:pip"
+    - question: Which strips is Dad in without Marlow?
+      query: "@featuring:dad @not @featuring:marlow"
     - question: What's on page 7 of Pip and Marlow?
       query: "@in (@id:pipandmarlow @page:7)"
     - question: Which books have a colour Sunday I don't own?
@@ -183,15 +184,15 @@ corrections:
   # hiding it, so a build that wants no part of it carries no trace of it.
   enabled: ${CORRECTIONS:-false}
   pages:
-    strip: https://example.com/corrections?kind=strip&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
-    rerun: https://example.com/corrections?kind=rerun&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
-    book: https://example.com/corrections?kind=book&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
-    books: https://example.com/corrections?kind=book&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
-    arc: https://example.com/corrections?kind=arc&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
-    arcs: https://example.com/corrections?kind=arc&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
-    character: https://example.com/corrections?kind=character&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
-    characters: https://example.com/corrections?kind=character&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
-    credits: https://example.com/corrections?kind=credits&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
+    strip: https://example.com/corrections?kind=Comic&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
+    rerun: https://example.com/corrections?kind=Comic&kind=Rerun&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
+    book: https://example.com/corrections?kind=Book&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
+    books: https://example.com/corrections?kind=Book&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
+    arc: https://example.com/corrections?kind=Arc&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
+    arcs: https://example.com/corrections?kind=Arc&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
+    character: https://example.com/corrections?kind=Character&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
+    characters: https://example.com/corrections?kind=Character&page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
+    credits: https://example.com/corrections?page={{page.url}}&site={{page.origin}}&commit={{site.commit}}
 
 # The archive itself. Each part can be written here in place, but is usually `!Import ./file.yaml`,
 # which reads that file in place of the value, relative to this one; a Markdown file is read as its

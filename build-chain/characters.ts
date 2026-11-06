@@ -27,7 +27,7 @@ type Role = (typeof ROLES)[number];
 /**
  * One strip's `characters:`, as `comics.yaml` writes it: a character's id where they are seen and
  * heard, and a mapping where they are not, from `seen`, `heard` or `mentioned` to an id or a list
- * of them — `[calvin, {seen: [hobbes, susie]}, {heard: dad}, {mentioned: rosalyn}]`. A mention is
+ * of them — `[tobias, {seen: [marlow, hazel]}, {heard: dad}, {mentioned: eleanor}]`. A mention is
  * someone talked about or spoken to who is neither seen nor heard. Each character once, under one
  * role: seen and heard together is the id alone.
  *

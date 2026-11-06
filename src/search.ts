@@ -30,7 +30,7 @@ export interface SearchResult {
 
 /**
  * The words an archive reads as others, by the word as written: a compound as its parts —
- * `goodnight` as `good night` — and a misspelling as its word, `suzie` as `susie`. The archive's,
+ * `goodnight` as `good night` — and a misspelling as its word, `suzie` as `hazel`. The archive's,
  * like its tuning, handed to `search` by whatever searches.
  */
 export type Compounds = ReadonlyMap<string, string[]>;
@@ -437,8 +437,8 @@ function boundedDistance(a: string, b: string, max: number): number {
 /**
  * Expands a term to the words it can match, weighted by how rare each is in this corpus.
  * A term below `suppressBelow` is dropped entirely: it neither matches nor counts toward
- * coverage. Rarity is anchored on the term as typed, so expanding `calvin` to the rarer
- * `calvin's` cannot make `calvin` itself look informative.
+ * coverage. Rarity is anchored on the term as typed, so expanding `tobias` to the rarer
+ * `tobias's` cannot make `tobias` itself look informative.
  */
 function expandTerm(
 	corpus: Corpus,
@@ -541,7 +541,7 @@ function requiredCoverage(floor: number, terms: number, forgiveness: number): nu
 /**
  * The effective length of the query: each term counts for as much as it is worth beside the
  * most informative one, so a common word adds a fraction of a term rather than a whole one.
- * Counting raw terms would let `calvin` turn `rosalyn AND help` into `rosalyn OR help` purely
+ * Counting raw terms would let `tobias` turn `eleanor AND help` into `eleanor OR help` purely
  * by being typed, since the extra term buys a discount far larger than the word is worth.
  */
 function effectiveTerms(ceilings: Float64Array): number {
@@ -907,8 +907,8 @@ function lends(summary: Summary, gates: Gates): boolean {
 /**
  * Whether a field is admitted, judged in its own terms — its own ceilings, its own thresholds —
  * but with every term another field of the strip reached counted as reached here too, at
- * `lending` of its worth. A query is one question about one strip, so `calvin hello world` against
- * a strip described as Calvin and saying `hello world` has matched all three words, even though
+ * `lending` of its worth. A query is one question about one strip, so `tobias hello world` against
+ * a strip described as Tobias and saying `hello world` has matched all three words, even though
  * neither field has. Judged apart, the transcript is missing a word and the description two, and
  * the strip either drops out or ties with every other strip that says `hello world`.
  *

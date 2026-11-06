@@ -31,7 +31,7 @@ export function parseRoutePath(pathname: string, search: string): Route | null {
 
 	// Relevance is the default and `?sort=date` is the alternative. Date order has no ranking in it,
 	// so the coverage bar is the only thing keeping a weak match out of the top of the page:
-	// `ding dong rosalyn` led with a strip about a ping-pong ball, which is one edit from `ding dong`
+	// `ding dong eleanor` led with a strip about a ping-pong ball, which is one edit from `ding dong`
 	// and nothing to do with the query.
 	const sort: SortMode = params.get("sort") === "date" ? "date" : "rank";
 

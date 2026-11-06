@@ -55,7 +55,7 @@ export interface GridConfig {
 
 export interface PageConfig {
 	name: string;
-	/** What the archive is of — "Calvin and Hobbes" — for the sentences the link previews are written in. */
+	/** What the archive is of — "Tobias and Marlow" — for the sentences the link previews are written in. */
 	series: string;
 	/** The link preview's description for a page with none of its own, or `null` for none. */
 	description: string | null;

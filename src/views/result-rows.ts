@@ -69,7 +69,7 @@ const ROWS_PER_BATCH = 50;
 const ROWS_AHEAD = 10;
 
 /**
- * A list's rows being drawn. A list of thousands — `a`, or Calvin's page — drawn whole at once is
+ * A list's rows being drawn. A list of thousands — `a`, or Tobias's page — drawn whole at once is
  * seconds on a phone, during which nothing typed shows up. So the first screens of rows are drawn
  * whole, and the rest plain — a header and the text, which is what find-in-page searches — a batch
  * at a time while the page is otherwise idle. A plain row is made whole, its picture and its handlers,

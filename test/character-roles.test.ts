@@ -18,25 +18,25 @@ import { ENGINE_TUNING } from "./helpers/engine-tuning";
 const NO_COMPOUNDS: Compounds = new Map();
 
 const CHARACTERS: Character[] = [
-	{ id: "calvin", name: "Calvin", strips: 0, years: [], ranges: [] },
-	{ id: "susie", name: "Susie Derkins", strips: 0, years: [], ranges: [] },
+	{ id: "tobias", name: "Tobias", strips: 0, years: [], ranges: [] },
+	{ id: "hazel", name: "Hazel Perkins", strips: 0, years: [], ranges: [] },
 	{ id: "mom", name: "Mom", strips: 0, years: [], ranges: [] },
 ];
 
 /**
- * Calvin and Susie both seen and heard; Susie seen but silent and Mom only heard; Susie only
+ * Tobias and Hazel both seen and heard; Hazel seen but silent and Mom only heard; Hazel only
  * talked about, and run again in 1995; and Mom alone, seen and heard.
  */
 const COMICS: Comic[] = [
-	{ date: "1988-01-03", transcript: "Snow!", characters: ["calvin", "susie"] },
+	{ date: "1988-01-03", transcript: "Snow!", characters: ["tobias", "hazel"] },
 	{
 		date: "1988-01-04",
 		transcript: "Dinner!",
-		characters: ["calvin", "susie", "mom"],
-		seenOnly: ["susie"],
+		characters: ["tobias", "hazel", "mom"],
+		seenOnly: ["hazel"],
 		heardOnly: ["mom"],
 	},
-	{ date: "1988-01-05", transcript: "Susie is weird.", characters: ["calvin"], mentioned: ["susie"] },
+	{ date: "1988-01-05", transcript: "Hazel is weird.", characters: ["tobias"], mentioned: ["hazel"] },
 	{ date: "1988-01-06", transcript: "Bedtime.", characters: ["mom"] },
 ];
 
@@ -75,8 +75,8 @@ test("how a strip has its characters", async (suite) => {
 	setUp();
 
 	await suite.test("a listed character is seen and heard unless the strip says otherwise", () => {
-		assert.deepEqual(strips("@featuring (@id:susie @as:seen)"), ["1988-01-03", "1988-01-04"]);
-		assert.deepEqual(strips("@featuring (@id:susie @as:heard)"), ["1988-01-03"]);
+		assert.deepEqual(strips("@featuring (@id:hazel @as:seen)"), ["1988-01-03", "1988-01-04"]);
+		assert.deepEqual(strips("@featuring (@id:hazel @as:heard)"), ["1988-01-03"]);
 		assert.deepEqual(strips("@featuring (@id:mom @as:seen)"), ["1988-01-06"]);
 		assert.deepEqual(strips("@featuring (@id:mom @as:heard)"), ["1988-01-04", "1988-01-06"]);
 	});
@@ -87,24 +87,24 @@ test("how a strip has its characters", async (suite) => {
 	});
 
 	await suite.test("a mention is left out unless @as:mentioned asks for it", () => {
-		assert.deepEqual(strips("@featuring:susie"), ["1988-01-03", "1988-01-04"]);
-		assert.deepEqual(strips("@featuring (@id:susie)"), ["1988-01-03", "1988-01-04"]);
-		assert.deepEqual(strips("@featuring (@id:susie @as:mentioned)"), ["1988-01-05"]);
-		assert.deepEqual(strips("@featuring (@id:susie @or @as:mentioned)"), ["1988-01-03", "1988-01-04", "1988-01-05"]);
-		assert.deepEqual(strips("@featuring (@id:susie @not @as:mentioned)"), ["1988-01-03", "1988-01-04"]);
-		assert.deepEqual(strips("@not @featuring:susie"), ["1988-01-05", "1988-01-06"]);
+		assert.deepEqual(strips("@featuring:hazel"), ["1988-01-03", "1988-01-04"]);
+		assert.deepEqual(strips("@featuring (@id:hazel)"), ["1988-01-03", "1988-01-04"]);
+		assert.deepEqual(strips("@featuring (@id:hazel @as:mentioned)"), ["1988-01-05"]);
+		assert.deepEqual(strips("@featuring (@id:hazel @or @as:mentioned)"), ["1988-01-03", "1988-01-04", "1988-01-05"]);
+		assert.deepEqual(strips("@featuring (@id:hazel @not @as:mentioned)"), ["1988-01-03", "1988-01-04"]);
+		assert.deepEqual(strips("@not @featuring:hazel"), ["1988-01-05", "1988-01-06"]);
 	});
 
 	await suite.test("a rerun day mentions whom its strip did", () => {
-		assert.deepEqual(strips("@is:rerun @featuring (@id:susie @as:mentioned)"), ["1995-01-05 rerun"]);
+		assert.deepEqual(strips("@is:rerun @featuring (@id:hazel @as:mentioned)"), ["1995-01-05 rerun"]);
 	});
 
 	await suite.test("@has asks the same of a character's strips, mentions only where asked", () => {
-		assert.deepEqual(listed("@has @as:mentioned"), ["susie"]);
-		assert.deepEqual(listed("@has (@as:seen @not @as:heard)"), ["susie"]);
+		assert.deepEqual(listed("@has @as:mentioned"), ["hazel"]);
+		assert.deepEqual(listed("@has (@as:seen @not @as:heard)"), ["hazel"]);
 		assert.deepEqual(listed("@has (@as:heard @not @as:seen)"), ["mom"]);
-		assert.deepEqual(listed("@only @has @as:heard"), ["calvin", "mom"]);
-		assert.deepEqual(listed("@has @year:1988"), ["calvin", "susie", "mom"]);
+		assert.deepEqual(listed("@only @has @as:heard"), ["tobias", "mom"]);
+		assert.deepEqual(listed("@has @year:1988"), ["tobias", "hazel", "mom"]);
 	});
 
 	await suite.test("the tags are a character's, and a book's are not", () => {

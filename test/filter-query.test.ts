@@ -38,8 +38,8 @@ function strip(date: string, ...books: string[]): Comic {
 
 test("filters", async (suite) => {
 	await suite.test("a filter is lifted out and the rest is the query", () => {
-		const [branch] = parseQuery("@year:1988 rosalyn");
-		assert.deepEqual(branch.segments, ["rosalyn"]);
+		const [branch] = parseQuery("@year:1988 eleanor");
+		assert.deepEqual(branch.segments, ["eleanor"]);
 		assert.deepEqual(branch.clauses, [[{ kind: "filter", filter: read("@year:1988"), negated: false }]]);
 	});
 
@@ -100,8 +100,8 @@ test("filters", async (suite) => {
 
 	await suite.test("@featuring names a character by its id", () => {
 		try {
-			registerVocabulary("featuring", () => [{ value: "susie", hint: "Susie Derkins" }]);
-			assert.deepEqual(read("@featuring:Susie"), { kind: "featuring", character: "susie" });
+			registerVocabulary("featuring", () => [{ value: "hazel", hint: "Hazel Perkins" }]);
+			assert.deepEqual(read("@featuring:Hazel"), { kind: "featuring", character: "hazel" });
 			assert.equal(read("@featuring:suzy"), null);
 		} finally {
 			registerVocabulary("featuring", () => []);
@@ -112,16 +112,16 @@ test("filters", async (suite) => {
 	// tags do — and either is `@or`.
 	await suite.test("characters side by side intersect", () => {
 		const cast = (date: string, ...characters: string[]): Comic => ({ date, transcript: "", characters });
-		const query = "@featuring:susie @featuring:rosalyn";
-		assert.ok(passes(cast("1988-06-01", "calvin", "susie", "rosalyn"), query));
-		assert.ok(!passes(cast("1988-06-01", "susie"), query));
-		assert.ok(passes(cast("1988-06-01", "susie"), "@featuring:susie @or @featuring:rosalyn"));
+		const query = "@featuring:hazel @featuring:eleanor";
+		assert.ok(passes(cast("1988-06-01", "tobias", "hazel", "eleanor"), query));
+		assert.ok(!passes(cast("1988-06-01", "hazel"), query));
+		assert.ok(passes(cast("1988-06-01", "hazel"), "@featuring:hazel @or @featuring:eleanor"));
 	});
 
 	await suite.test("@by names a creator by their id", () => {
 		try {
-			registerVocabulary("by", () => [{ value: "watterson", hint: "Bill Watterson" }]);
-			assert.deepEqual(read("@by:Watterson"), { kind: "by", creator: "watterson" });
+			registerVocabulary("by", () => [{ value: "author", hint: "Bill Author" }]);
+			assert.deepEqual(read("@by:Author"), { kind: "by", creator: "author" });
 			assert.equal(read("@by:waterson"), null);
 		} finally {
 			registerVocabulary("by", () => []);
@@ -147,9 +147,9 @@ test("filters", async (suite) => {
 	});
 
 	await suite.test("a strip that lists no characters features none", () => {
-		assert.ok(!passes({ date: "1988-06-01", transcript: "" }, "@featuring:calvin"));
-		assert.ok(passes({ date: "1988-06-01", transcript: "" }, "@not @featuring:calvin"));
-		assert.ok(!passes("1988-06-01", "@featuring:calvin"));
+		assert.ok(!passes({ date: "1988-06-01", transcript: "" }, "@featuring:tobias"));
+		assert.ok(passes({ date: "1988-06-01", transcript: "" }, "@not @featuring:tobias"));
+		assert.ok(!passes("1988-06-01", "@featuring:tobias"));
 	});
 
 	/*
@@ -286,7 +286,7 @@ test("filters", async (suite) => {
 	// exactly as `@in` does for the books.
 	await suite.test("@is:empty matches a strip with an empty transcript", () => {
 		const wordless: Comic = { date: "1988-06-01", transcript: "" };
-		const spoken: Comic = { date: "1988-06-02", transcript: "Calvinball!" };
+		const spoken: Comic = { date: "1988-06-02", transcript: "Kickball!" };
 		assert.ok(passes(wordless, "@is:empty"));
 		assert.ok(!passes(spoken, "@is:empty"));
 		// A date cannot say whether a strip is wordless.

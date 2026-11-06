@@ -9,3 +9,8 @@
 keepWhole:
   - washer # was her
   - theirs # the irs
+
+# Compounds the corpus rule cannot find on its own, by how a reader most often writes them.
+compounds:
+  closed:
+    sandcastle: sand castle

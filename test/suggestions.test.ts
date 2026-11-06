@@ -47,7 +47,7 @@ registerVocabulary("in", () =>
 /**
  * The archive as the app has it once it has loaded: the strips with their books, arcs, characters,
  * creators and subjects, as the build writes them; the reruns; the descriptions; and the parts that
- * ship inside the script, as `useBundledData` sets them, which a crossing like `@featuring rosalyn`
+ * ship inside the script, as `useBundledData` sets them, which a crossing like `@featuring eleanor`
  * looks through.
  */
 function installSiteArchive(): void {

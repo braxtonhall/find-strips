@@ -5,7 +5,7 @@ import type { Tuning } from "../../src/search";
  * about any one archive's fit: an archive retuning its `tuning.yaml` cannot break them, and they
  * need no archive to run.
  *
- * The values are the ones the tests were written against — Calvin and Hobbes's as they stood when
+ * The values are the ones the tests were written against — Tobias and Marlow's as they stood when
  * the tuning moved out of the engine. A test about one setting overrides it in a copy of these.
  */
 export const ENGINE_TUNING: Tuning = {

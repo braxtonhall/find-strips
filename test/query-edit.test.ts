@@ -19,10 +19,10 @@ import {
  * case that does — a bar built before the archive arrived — registers an empty list of its own.
  */
 const BOOKS = [
-	{ value: "book1", hint: "Calvin and Hobbes" },
-	{ value: "book3", hint: "Yukon Ho!" },
+	{ value: "book1", hint: "Tobias and Marlow" },
+	{ value: "book3", hint: "Taiga Ho!" },
 	{ value: "book4", hint: "Weirdos From Another Planet!" },
-	{ value: "lazysunday", hint: "The Calvin and Hobbes Lazy Sunday Book" },
+	{ value: "lazysunday", hint: "The Tobias and Marlow Lazy Sunday Book" },
 ];
 
 registerVocabulary("in", () => BOOKS);
@@ -67,10 +67,10 @@ test("the fields", async (suite) => {
 
 	await suite.test("a book reads as its title and writes as its id", () => {
 		assert.deepEqual(field("book").options(), [
-			{ token: "@in:book1", label: "Calvin and Hobbes" },
-			{ token: "@in:book3", label: "Yukon Ho!" },
+			{ token: "@in:book1", label: "Tobias and Marlow" },
+			{ token: "@in:book3", label: "Taiga Ho!" },
 			{ token: "@in:book4", label: "Weirdos From Another Planet!" },
-			{ token: "@in:lazysunday", label: "The Calvin and Hobbes Lazy Sunday Book" },
+			{ token: "@in:lazysunday", label: "The Tobias and Marlow Lazy Sunday Book" },
 		]);
 	});
 
@@ -126,10 +126,10 @@ test("projection: query text to checkmarks", async (suite) => {
 	});
 
 	await suite.test("a book checks its own box", () => {
-		assert.deepEqual(checked("@in:book3"), { book: ["Yukon Ho!"] });
-		assert.deepEqual(checked("@IN:BOOK3"), { book: ["Yukon Ho!"] });
+		assert.deepEqual(checked("@in:book3"), { book: ["Taiga Ho!"] });
+		assert.deepEqual(checked("@IN:BOOK3"), { book: ["Taiga Ho!"] });
 		assert.deepEqual(checked("@in:book3 @in:lazysunday"), {
-			book: ["Yukon Ho!", "The Calvin and Hobbes Lazy Sunday Book"],
+			book: ["Taiga Ho!", "The Tobias and Marlow Lazy Sunday Book"],
 		});
 	});
 
@@ -416,7 +416,7 @@ test("round trip", async (suite) => {
 		"clean @year:1988 your room",
 		"@day:saturday snowman",
 		"@month:aug @day:3",
-		"  spaceman   spiff  ",
+		"  spaceman   skiff  ",
 	];
 	const tokens = ["@year:1990", "@month:august", "@day:3", "@is:sunday", "@is:daily"];
 

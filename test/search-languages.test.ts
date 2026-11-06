@@ -50,24 +50,24 @@ const BOOKS = [
 const ARCS: Arc[] = [
 	{
 		id: "snowarc",
-		description: "Calvin builds a fort in the winter.",
+		description: "Tobias builds a fort in the winter.",
 		dates: ["1988-01-03", "1988-01-04"],
 		collections: [],
 	},
-	{ id: "schoolarc", description: "Calvin at school.", dates: ["1988-01-05"], collections: [] },
+	{ id: "schoolarc", description: "Tobias at school.", dates: ["1988-01-05"], collections: [] },
 ];
 
 const CHARACTERS: Character[] = [
-	{ id: "susie", name: "Susie Derkins", strips: 0, years: [], ranges: [] },
+	{ id: "hazel", name: "Hazel Perkins", strips: 0, years: [], ranges: [] },
 	{ id: "mom", name: "Mom", strips: 0, years: [], ranges: [] },
-	{ id: "rosalyn", name: "Rosalyn", strips: 0, years: [], ranges: [] },
+	{ id: "eleanor", name: "Eleanor", strips: 0, years: [], ranges: [] },
 ];
 
 function creator(id: string, name: string, roles?: string[]): Creator {
 	return { id, name, strips: 0, years: [], ranges: [], ...(roles ? { roles } : {}) };
 }
 
-const CREATORS: Creator[] = [creator("bill", "Bill Watterson"), creator("ink", "An Inker", ["art"])];
+const CREATORS: Creator[] = [creator("bill", "Bill Author"), creator("ink", "An Inker", ["art"])];
 
 const SUBJECTS: Subject[] = [
 	{
@@ -90,7 +90,7 @@ const COMICS: Comic[] = [
 			{ collection: "plainbook", pages: [1, 3], formats: ["greyscale", "ink"] },
 		],
 		arcs: ["snowarc"],
-		characters: ["susie"],
+		characters: ["hazel"],
 		creators: [{ id: "bill" }],
 		subjects: ["snowballs"],
 	},
@@ -105,10 +105,10 @@ const COMICS: Comic[] = [
 	{ date: "1988-01-04", id: "special1", transcript: "A special strip." },
 	{
 		date: "1988-01-05",
-		transcript: "Susie throws a snowball at me.",
+		transcript: "Hazel throws a snowball at me.",
 		appearances: [{ collection: "plainbook", pages: [2] }],
 		arcs: ["schoolarc"],
-		characters: ["susie"],
+		characters: ["hazel"],
 		subjects: ["snowballs", "school"],
 		creators: [
 			{ id: "bill", role: "story" },
@@ -119,9 +119,9 @@ const COMICS: Comic[] = [
 ];
 
 const DESCRIPTIONS = new Map([
-	["1988-01-03", "Calvin and Hobbes play in the snow."],
-	["1988-01-04", "Calvin asks Mom to let him stay home."],
-	["1988-01-05", "Susie hits Calvin with a snowball."],
+	["1988-01-03", "Tobias and Marlow play in the snow."],
+	["1988-01-04", "Tobias asks Mom to let him stay home."],
+	["1988-01-05", "Hazel hits Tobias with a snowball."],
 	["1990-02-04", "Nothing happens."],
 ]);
 
@@ -237,10 +237,9 @@ test("reading a query where it stands", async (suite) => {
 		assert.equal(bookmarked.reason, "Did you mean @has @i:bookmarked?");
 	});
 
-	await suite.test("@as: says nothing of a character where no strip says how it has one", () => {
+	await suite.test("@as: describes a character where strips say how they have one", () => {
 		const [filter] = scanQuery("@featuring (@as:heard)", STRIP_QUERY).filters;
-		assert.equal(filter.valid, false);
-		assert.match(filter.reason!, /describes a strip in a book, not in a character/);
+		assert.equal(filter.valid, true);
 	});
 
 	await suite.test("@as: needs a link to describe", () => {
@@ -391,7 +390,7 @@ test("the strip language", async (suite) => {
 		assert.deepEqual(strips("@about @is:any"), ["1988-01-03", "1988-01-05"]);
 		assert.deepEqual(strips("@in @not @is:any"), []);
 		assert.deepEqual(strips("@not @in @not @is:any").length, strips("@is:any").length);
-		assert.deepEqual(strips("susie @is:any"), strips("susie"));
+		assert.deepEqual(strips("hazel @is:any"), strips("hazel"));
 		assert.deepEqual(strips("@not @is:any"), []);
 		assert.deepEqual(strips("@year:1988 @or @is:any").length, strips("@is:any").length);
 	});
@@ -462,11 +461,11 @@ test("the strip language", async (suite) => {
 
 	await suite.test("words and a crossing rank together, the crossing only judging", () => {
 		setUp();
-		const found = strips("susie");
+		const found = strips("hazel");
 		assert.deepEqual(found, ["1988-01-05"]);
 		state.ownedBooks = new Set(["plainbook"]);
-		assert.deepEqual(strips("susie @in @i:own"), found);
-		assert.deepEqual(strips("susie @not @in @i:own"), []);
+		assert.deepEqual(strips("hazel @in @i:own"), found);
+		assert.deepEqual(strips("hazel @not @in @i:own"), []);
 	});
 });
 
@@ -507,8 +506,8 @@ test("the collection language", async (suite) => {
 
 	await suite.test("words may be found in different strips, a phrase only in one", () => {
 		setUp();
-		// Susie is in one strip of the arc and Mom in the other; no single strip has both.
-		assert.deepEqual(listed("susie mom", "character"), []);
+		// Hazel is in one strip of the arc and Mom in the other; no single strip has both.
+		assert.deepEqual(listed("hazel mom", "character"), []);
 		assert.deepEqual(listed("snow mom", "arc"), ["snowarc"]);
 		assert.deepEqual(listed("@has (snow mom)", "arc"), []);
 		assert.deepEqual(listed('"build a fort"', "arc"), ["snowarc"]);
@@ -518,7 +517,7 @@ test("the collection language", async (suite) => {
 		assert.deepEqual(listed("@has winter", "arc"), []);
 		// By the word and its inflections, as a word under `@not` is: `snowball` is not `snow`.
 		assert.deepEqual(listed("@not snow", "arc"), ["schoolarc"]);
-		assert.deepEqual(listed("susie", "character"), ["susie"]);
+		assert.deepEqual(listed("hazel", "character"), ["hazel"]);
 	});
 
 	await suite.test("a book, a creator or a character is found by name, not by its strips' words", () => {
@@ -526,9 +525,9 @@ test("the collection language", async (suite) => {
 		assert.deepEqual(listed("snowball", "book"), []);
 		assert.deepEqual(listed("@has snowball", "book"), ["plainbook"]);
 		assert.deepEqual(listed("snow", "character"), []);
-		assert.deepEqual(listed("@has snow", "character"), ["susie"]);
+		assert.deepEqual(listed("@has snow", "character"), ["hazel"]);
 		assert.deepEqual(listed("fort", "creator"), []);
-		assert.deepEqual(listed("watterson", "creator"), ["bill"]);
+		assert.deepEqual(listed("author", "creator"), ["bill"]);
 	});
 
 	await suite.test("a subject is found by its name, its keywords and its description, not its strips' words", () => {
@@ -783,14 +782,14 @@ test("the search box", async (suite) => {
 			filterSpans(text, null, root).map((span) => [span.kind, text.slice(span.start, span.end), span.reason]);
 		assert.deepEqual(painted("@during @as:ink"), [
 			["match", "@during", undefined],
-			["invalid", "@as:ink", "@as:ink describes a strip in a book, not in an arc"],
+			["invalid", "@as:ink", "@as:ink describes a strip in a book or a character, not in an arc"],
 		]);
 		assert.deepEqual(painted("@as:ink", collectionQuery("arc")).slice(-1), [
 			["invalid", "@as:ink", "@as:ink describes a strip in a collection: use it inside @in (…) or @has (…)"],
 		]);
 		assert.deepEqual(painted("@has @as:ink", collectionQuery("arc")), [
 			["match", "@has", undefined],
-			["invalid", "@as:ink", "@as:ink describes a strip in a book, not in an arc"],
+			["invalid", "@as:ink", "@as:ink describes a strip in a book or a character, not in an arc"],
 		]);
 		assert.deepEqual(painted("@has @as:ink", collectionQuery("book")), [
 			["match", "@has", undefined],

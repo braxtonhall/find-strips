@@ -141,7 +141,8 @@ test("naming a filter", async (suite) => {
 	});
 
 	await suite.test("an operator narrows by prefix, under the filters", () => {
-		assert.deepEqual(names("@a|"), ["after", "and"]);
+		// `about` is the subjects' filter, in both languages.
+		assert.deepEqual(names("@a|"), ["about", "after", "and", "about"]);
 		assert.deepEqual(names("@n|"), ["not"]);
 		assert.deepEqual(names("@or|"), ["or"]);
 		assert.deepEqual(completions("@no|"), ["@not "]);
@@ -690,10 +691,10 @@ test("finding the token", async (suite) => {
  */
 test("a vocabulary that arrives with the data", async (suite) => {
 	const BOOKS = [
-		{ value: "book3", hint: "Yukon Ho!" },
+		{ value: "book3", hint: "Taiga Ho!" },
 		{ value: "book4", hint: "Weirdos From Another Planet!" },
-		{ value: "complete", hint: "The Complete Calvin and Hobbes" },
-		{ value: "lazysunday", hint: "The Calvin and Hobbes Lazy Sunday Book" },
+		{ value: "complete", hint: "The Complete Tobias and Marlow" },
+		{ value: "lazysunday", hint: "The Tobias and Marlow Lazy Sunday Book" },
 	];
 
 	function withBooks(check: () => void): void {
@@ -820,8 +821,8 @@ test("a vocabulary that arrives with the data", async (suite) => {
 
 test("painting the operators", async (suite) => {
 	await suite.test("an operator with something on both sides is settled", () => {
-		assert.deepEqual(spans("calvin @or hobbes"), [["match", "@or"]]);
-		assert.deepEqual(spans("calvin @and @not hobbes"), [
+		assert.deepEqual(spans("tobias @or marlow"), [["match", "@or"]]);
+		assert.deepEqual(spans("tobias @and @not marlow"), [
 			["match", "@and"],
 			["match", "@not"],
 		]);
@@ -834,8 +835,8 @@ test("painting the operators", async (suite) => {
 	await suite.test("an operator at the end is settled while the query is being written", () => {
 		assert.deepEqual(spans("@not|"), [["match", "@not"]]);
 		assert.deepEqual(spans("@not |"), [["match", "@not"]]);
-		assert.deepEqual(spans("calvin @or |"), [["match", "@or"]]);
-		assert.deepEqual(spans("calvin @and|"), [["match", "@and"]]);
+		assert.deepEqual(spans("tobias @or |"), [["match", "@or"]]);
+		assert.deepEqual(spans("tobias @and|"), [["match", "@and"]]);
 	});
 
 	// More operators waiting on the same atom are still the query being written: `@in @has` is on its
@@ -866,13 +867,13 @@ test("painting the operators", async (suite) => {
 
 	await suite.test("and a mistake once it is not", () => {
 		assert.deepEqual(spans("@not"), [["invalid", "@not"]]);
-		assert.deepEqual(spans("calvin @or "), [["invalid", "@or"]]);
-		assert.equal(filterSpans("calvin @or", null)[0].reason, "@or needs something after it");
+		assert.deepEqual(spans("tobias @or "), [["invalid", "@or"]]);
+		assert.equal(filterSpans("tobias @or", null)[0].reason, "@or needs something after it");
 	});
 
 	await suite.test("an operator with nothing after it is a mistake wherever more follows", () => {
-		assert.deepEqual(spans("(calvin @or) hobbes|"), [["invalid", "@or"]]);
-		assert.deepEqual(spans("calvin @not @or hobbes|"), [
+		assert.deepEqual(spans("(tobias @or) marlow|"), [["invalid", "@or"]]);
+		assert.deepEqual(spans("tobias @not @or marlow|"), [
 			["invalid", "@not"],
 			["invalid", "@or"],
 		]);
@@ -880,9 +881,9 @@ test("painting the operators", async (suite) => {
 
 	await suite.test("@and and @or with nothing before them are a mistake at once", () => {
 		assert.deepEqual(spans("@or|"), [["invalid", "@or"]]);
-		assert.deepEqual(spans("@and hobbes|"), [["invalid", "@and"]]);
-		assert.deepEqual(spans("(@or hobbes)|"), [["invalid", "@or"]]);
-		assert.equal(filterSpans("@or hobbes", null)[0].reason, "@or needs something before it");
+		assert.deepEqual(spans("@and marlow|"), [["invalid", "@and"]]);
+		assert.deepEqual(spans("(@or marlow)|"), [["invalid", "@or"]]);
+		assert.equal(filterSpans("@or marlow", null)[0].reason, "@or needs something before it");
 	});
 
 	await suite.test("a name that only begins with an operator is not one", () => {
@@ -892,20 +893,20 @@ test("painting the operators", async (suite) => {
 
 test("quotation marks", async (suite) => {
 	await suite.test("there is no menu inside a quotation", () => {
-		assert.equal(at('"rosalyn @|'), null);
-		assert.equal(at('"rosalyn @o|r baby"'), null);
+		assert.equal(at('"eleanor @|'), null);
+		assert.equal(at('"eleanor @o|r baby"'), null);
 		assert.equal(at("“snow @ye|"), null);
 	});
 
 	await suite.test("the menu comes back outside one", () => {
-		assert.deepEqual(names('"rosalyn" @o|'), ["or", "only"]);
-		assert.deepEqual(names('"rosalyn"@o|'), ["or", "only"]);
+		assert.deepEqual(names('"eleanor" @o|'), ["or", "only"]);
+		assert.deepEqual(names('"eleanor"@o|'), ["or", "only"]);
 	});
 
 	await suite.test("nothing inside a quotation is painted", () => {
-		assert.deepEqual(spans('"rosalyn @or baby @year:1988"'), []);
-		assert.deepEqual(spans('"rosalyn @or baby @year:1988|'), []);
-		assert.deepEqual(spans('"rosalyn" @or "baby" @year:1988'), [
+		assert.deepEqual(spans('"eleanor @or baby @year:1988"'), []);
+		assert.deepEqual(spans('"eleanor @or baby @year:1988|'), []);
+		assert.deepEqual(spans('"eleanor" @or "baby" @year:1988'), [
 			["match", "@or"],
 			["match", "@year:1988"],
 		]);
@@ -968,19 +969,19 @@ test("brackets", async (suite) => {
 	});
 
 	await suite.test("but not before there is an @ for it to group", () => {
-		assert.deepEqual(spans("calvin (sigh"), []);
-		assert.deepEqual(spans("calvin ] hobbes"), []);
+		assert.deepEqual(spans("tobias (sigh"), []);
+		assert.deepEqual(spans("tobias ] marlow"), []);
 		assert.deepEqual(spans('"@is:sunday" (sigh'), []);
 	});
 
 	await suite.test("an opener left open is only unfinished while the query is being written", () => {
-		assert.deepEqual(spans("@is:sunday (calvin|"), [["match", "@is:sunday"]]);
-		assert.deepEqual(spans("@is:sunday (calvin"), [
+		assert.deepEqual(spans("@is:sunday (tobias|"), [["match", "@is:sunday"]]);
+		assert.deepEqual(spans("@is:sunday (tobias"), [
 			["match", "@is:sunday"],
 			["invalid", "("],
 		]);
 		// Closed by the `]`, it is finished, and wrong.
-		assert.deepEqual(spans("@is:sunday [(calvin]|"), [
+		assert.deepEqual(spans("@is:sunday [(tobias]|"), [
 			["match", "@is:sunday"],
 			["invalid", "("],
 		]);
@@ -1027,12 +1028,12 @@ test("brackets", async (suite) => {
 		assert.equal(typed("@in |", "("), "@in (|)");
 		assert.equal(typed("|", "{"), "{|}");
 		assert.equal(typed("[|]", "("), "[(|)]");
-		assert.equal(typed("rosalyn @or |baby sitter", "("), null);
-		assert.equal(typed("rosalyn @or |@is:sunday", "("), null);
+		assert.equal(typed("eleanor @or |baby sitter", "("), null);
+		assert.equal(typed("eleanor @or |@is:sunday", "("), null);
 	});
 
 	await suite.test("an opener wraps a selection", () => {
-		assert.equal(typed("rosalyn @or |baby sitter|", "("), "rosalyn @or (|baby sitter|)");
+		assert.equal(typed("eleanor @or |baby sitter|", "("), "eleanor @or (|baby sitter|)");
 	});
 
 	await suite.test("a closer steps over the same closer waiting with a partner", () => {

@@ -13,7 +13,7 @@ import { withConfig } from "./helpers/config";
 // only a hand-split entry can. `sunset` is written open as often as closed.
 const COMICS = `strips:
   "20000101": Say goodnight.
-  "20000102": Good night, Hobbes.
+  "20000102": Good night, Marlow.
   "20000103": Good night, Mom.
   "20000104": A snowman at sunset.
   "20000105": The snow man. The sun set.
@@ -82,10 +82,10 @@ test("a malformed compounds.yaml stops the build", () => {
 });
 
 test("this archive's relations keep their preference beside the parts the search reads", () => {
-	assert.deepEqual(COMPOUND_RELATIONS.get("snowball"), {
-		whole: "snowball",
-		parts: ["snow", "ball"],
+	assert.deepEqual(COMPOUND_RELATIONS.get("sandcastle"), {
+		whole: "sandcastle",
+		parts: ["sand", "castle"],
 		preference: "closed",
 	});
-	assert.deepEqual(CANONICAL_FORMS.get("snowball"), ["snow", "ball"]);
+	assert.deepEqual(CANONICAL_FORMS.get("sandcastle"), ["sand", "castle"]);
 });

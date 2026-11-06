@@ -39,13 +39,13 @@ function sourceOf(query: string, date: string): string {
 const CLEAN_ROOM: Entry[] = [
 	{
 		date: "2000-01-01",
-		transcript: "Clean your room, Calvin! I already cleaned it once this year.",
-		description: "Calvin is told by Mom to clean his bedroom. Hobbes watches.",
+		transcript: "Clean your room, Tobias! I already cleaned it once this year.",
+		description: "Tobias is told by Mom to clean his bedroom. Marlow watches.",
 	},
 	{
 		date: "2000-01-02",
 		transcript: "Your room is a disaster. I cannot clean what I cannot see.",
-		description: "Calvin argues with Mom about the state of his bedroom.",
+		description: "Tobias argues with Mom about the state of his bedroom.",
 	},
 ];
 
@@ -56,14 +56,14 @@ test("a contiguous phrase outranks the same words scattered", () => {
 });
 
 test("punctuation between the query words does not break the phrase bonus", () => {
-	install(buildArchive([{ date: "2000-01-01", transcript: "Clean your room, Calvin!" }]));
+	install(buildArchive([{ date: "2000-01-01", transcript: "Clean your room, Tobias!" }]));
 	const punctuated = scoreOf("clean your room", "2000-01-01");
-	install(buildArchive([{ date: "2000-01-01", transcript: "Clean your room Calvin" }]));
+	install(buildArchive([{ date: "2000-01-01", transcript: "Clean your room Tobias" }]));
 	assert.equal(scoreOf("clean your room", "2000-01-01"), punctuated);
 });
 
 test("word order matters to a transcript match", () => {
-	install(buildArchive([{ date: "2000-01-01", transcript: "Clean your room, Calvin!" }]));
+	install(buildArchive([{ date: "2000-01-01", transcript: "Clean your room, Tobias!" }]));
 	const inOrder = scoreOf("clean your room", "2000-01-01");
 	const reversed = scoreOf("room your clean", "2000-01-01");
 	assert.ok(reversed < inOrder, `expected ${reversed} < ${inOrder}`);
@@ -90,28 +90,28 @@ const UBIQUITOUS: Entry[] = [
 	{
 		date: "2000-01-01",
 		transcript: "It is a duplicator now. Counterfeiting is one of its many uses.",
-		description: "Calvin shows Hobbes the duplicator he built out of a cardboard box.",
+		description: "Tobias shows Marlow the duplicator he built out of a cardboard box.",
 	},
 	{
 		date: "2000-01-02",
-		transcript: "Calvin, get down here right now.",
-		description: "Calvin ignores Mom and keeps reading in the hallway with Hobbes.",
+		transcript: "Tobias, get down here right now.",
+		description: "Tobias ignores Mom and keeps reading in the hallway with Marlow.",
 	},
 ];
 
 test("a word in every description carries no weight there but still counts in a transcript", () => {
 	install(buildArchive(UBIQUITOUS));
-	assert.equal(sourceOf("calvin", "2000-01-02"), "transcript");
+	assert.equal(sourceOf("tobias", "2000-01-02"), "transcript");
 	assert.ok(
-		!search("calvin", "rank", ENGINE_TUNING, NO_COMPOUNDS).some((result) => result.source === "description"),
+		!search("tobias", "rank", ENGINE_TUNING, NO_COMPOUNDS).some((result) => result.source === "description"),
 		"a word present in every description must not admit description-only results",
 	);
 });
 
 test("a ubiquitous description word neither admits nor blocks a result", () => {
 	install(buildArchive(UBIQUITOUS));
-	assert.deepEqual(ranked("calvin duplicator"), ["2000-01-01"]);
-	assert.deepEqual(ranked("calvin hallway"), ["2000-01-02"]);
+	assert.deepEqual(ranked("tobias duplicator"), ["2000-01-01"]);
+	assert.deepEqual(ranked("tobias hallway"), ["2000-01-02"]);
 });
 
 // The corpus has to be big enough for `porch` to be common WITHOUT being weightless. An
@@ -123,21 +123,21 @@ test("a partial description match survives only if it covers the rare term", () 
 	const filler: Entry[] = Array.from({ length: 7 }, (_, index) => ({
 		date: `2000-02-${String(index + 1).padStart(2, "0")}`,
 		transcript: "Nothing to see here.",
-		description: "Hobbes naps on the windowsill.",
+		description: "Marlow naps on the windowsill.",
 	}));
 	install(
 		buildArchive([
 			{
 				date: "2000-01-01",
 				transcript: "Nothing to see here.",
-				description: "Calvin uses the transmogrifier on the porch.",
+				description: "Tobias uses the transmogrifier on the porch.",
 			},
 			{
 				date: "2000-01-02",
 				transcript: "Nothing to see here.",
-				description: "Calvin is on the porch by the window.",
+				description: "Tobias is on the porch by the window.",
 			},
-			{ date: "2000-01-03", transcript: "Nothing to see here.", description: "Calvin sits on the porch." },
+			{ date: "2000-01-03", transcript: "Nothing to see here.", description: "Tobias sits on the porch." },
 			...filler,
 		]),
 	);
@@ -147,33 +147,33 @@ test("a partial description match survives only if it covers the rare term", () 
 });
 
 // Issue #90. Judged apart, neither field of the first strip covers the query: the transcript lacks
-// `rosalyn`, which carries most of the query's weight, and the description lacks `hello world`. So
+// `eleanor`, which carries most of the query's weight, and the description lacks `hello world`. So
 // the strip that matched every word is dropped, and the one that matched two of them is kept.
 test("a query split across a strip's fields outranks one field alone when fields lend", () => {
 	install(
 		buildArchive([
-			{ date: "2000-01-01", transcript: "Hello world!", description: "Rosalyn wakes up." },
-			{ date: "2000-01-02", transcript: "Hello world!", description: "Hobbes wakes up." },
+			{ date: "2000-01-01", transcript: "Hello world!", description: "Eleanor wakes up." },
+			{ date: "2000-01-02", transcript: "Hello world!", description: "Marlow wakes up." },
 		]),
 	);
 	const lending: Tuning = { ...ENGINE_TUNING, fieldLending: 1, descriptionLendingReach: 1 };
-	assert.ok(!ranked("rosalyn hello world").includes("2000-01-01"));
-	assert.deepEqual(ranked("rosalyn hello world", lending), ["2000-01-01"]);
+	assert.ok(!ranked("eleanor hello world").includes("2000-01-01"));
+	assert.deepEqual(ranked("eleanor hello world", lending), ["2000-01-01"]);
 });
 
 test("a transcript inflection adds variety to an otherwise literal match", () => {
 	install(
 		buildArchive(
 			[
-				{ date: "2000-01-01", transcript: "Calvin is playing outside." },
-				{ date: "2000-01-02", transcript: "Calvin played outside." },
+				{ date: "2000-01-01", transcript: "Tobias is playing outside." },
+				{ date: "2000-01-02", transcript: "Tobias played outside." },
 			],
 			0,
 		),
 	);
 	// The low inflection weight should add transcript variety without allowing a one-word
 	// inflection-only query to pass the full-coverage requirement.
-	const results = search("calvin play", "date", ENGINE_TUNING, NO_COMPOUNDS);
+	const results = search("tobias play", "date", ENGINE_TUNING, NO_COMPOUNDS);
 	assert.deepEqual(
 		results.map((result) => result.comic.date),
 		["2000-01-01", "2000-01-02"],
@@ -190,13 +190,13 @@ test("a transcript inflection adds variety to an otherwise literal match", () =>
 test("required coverage tightens as the query shortens", () => {
 	install(
 		buildArchive([
-			{ date: "2000-01-01", transcript: "Rosalyn is here to babysit.", description: "Rosalyn arrives." },
-			{ date: "2000-01-02", transcript: "Susie is reading outside.", description: "Susie reads on the porch." },
+			{ date: "2000-01-01", transcript: "Eleanor is here to babysit.", description: "Eleanor arrives." },
+			{ date: "2000-01-02", transcript: "Hazel is reading outside.", description: "Hazel reads on the porch." },
 		]),
 	);
-	assert.deepEqual(ranked("rosalyn"), ["2000-01-01"]);
-	assert.deepEqual(ranked("susie"), ["2000-01-02"]);
-	assert.deepEqual(ranked("rosalyn susie"), [], "neither term may carry a two-word query alone");
+	assert.deepEqual(ranked("eleanor"), ["2000-01-01"]);
+	assert.deepEqual(ranked("hazel"), ["2000-01-02"]);
+	assert.deepEqual(ranked("eleanor hazel"), [], "neither term may carry a two-word query alone");
 });
 
 test("description vocabulary absent from the transcript is still findable", () => {
@@ -205,7 +205,7 @@ test("description vocabulary absent from the transcript is still findable", () =
 			{
 				date: "2000-01-01",
 				transcript: "Do you believe in fate? What a scary thought!",
-				description: "Calvin and Hobbes ride the wagon down the hill discussing whether life is predestined.",
+				description: "Tobias and Marlow ride the wagon down the hill discussing whether life is predestined.",
 			},
 		]),
 	);
@@ -308,7 +308,7 @@ const COMPOUNDS: Compounds = new Map([
 test("a closed compound and its open spelling find each other", () => {
 	install(
 		buildArchive([
-			{ date: "2000-01-01", transcript: "Aren't you going to say good night to Hobbes?" },
+			{ date: "2000-01-01", transcript: "Aren't you going to say good night to Marlow?" },
 			{ date: "2000-01-02", transcript: "She said goodnight and turned off the lamp." },
 		]),
 	);
@@ -402,17 +402,17 @@ const BEDTIME: Entry[] = [
 	{
 		date: "2000-01-01",
 		transcript: "Nothing to see here.",
-		description: "Calvin complains that bedtime is a fascist regime.",
+		description: "Tobias complains that bedtime is a fascist regime.",
 	},
 	{
 		date: "2000-01-02",
 		transcript: "Nothing to see here.",
-		description: "Calvin complained that bedtime is unfair.",
+		description: "Tobias complained that bedtime is unfair.",
 	},
 	...Array.from({ length: 7 }, (_, index) => ({
 		date: `2000-02-${String(index + 1).padStart(2, "0")}`,
 		transcript: "Nothing to see here.",
-		description: "Hobbes naps on the windowsill.",
+		description: "Marlow naps on the windowsill.",
 	})),
 ];
 
@@ -470,13 +470,13 @@ test("repeatVariety decides whether a second matched word counts as saying it ag
 test("length forgiveness decides how fast a long query relaxes", () => {
 	install(
 		buildArchive([
-			{ date: "2000-01-01", transcript: "Calvin and Hobbes discuss the transmogrifier at length today." },
-			{ date: "2000-01-02", transcript: "Susie reads a book about the transmogrifier." },
-			{ date: "2000-01-03", transcript: "Calvin and Hobbes discuss nothing at all today." },
+			{ date: "2000-01-01", transcript: "Tobias and Marlow discuss the transmogrifier at length today." },
+			{ date: "2000-01-02", transcript: "Hazel reads a book about the transmogrifier." },
+			{ date: "2000-01-03", transcript: "Tobias and Marlow discuss nothing at all today." },
 		]),
 	);
 	const strict: Tuning = { ...ENGINE_TUNING, transcriptLengthForgiveness: 0.25 };
-	const query = "calvin and hobbes discuss the transmogrifier at length today";
+	const query = "tobias and marlow discuss the transmogrifier at length today";
 
 	assert.ok(
 		ranked(query, strict).length <= ranked(query).length,
@@ -493,7 +493,7 @@ test("length forgiveness decides how fast a long query relaxes", () => {
 test("a literal share floor keeps out strips that only matched a misspelling", () => {
 	install(
 		buildArchive([
-			{ date: "2000-01-01", transcript: "Ding dong. It's Rosalyn at the door." },
+			{ date: "2000-01-01", transcript: "Ding dong. It's Eleanor at the door." },
 			{ date: "2000-01-02", transcript: "I cut a ping pong ball in half for school." },
 			...Array.from({ length: 7 }, (_, index) => ({
 				date: `2000-02-${String(index + 1).padStart(2, "0")}`,
@@ -516,11 +516,11 @@ test("a literal share floor keeps out strips that only matched a misspelling", (
 });
 
 test("a typo is still forgiven when the rest of the query is literal", () => {
-	install(buildArchive([{ date: "2000-01-01", transcript: "Isn't that your transmogrifier, Calvin?" }]));
+	install(buildArchive([{ date: "2000-01-01", transcript: "Isn't that your transmogrifier, Tobias?" }]));
 	const literal: Tuning = { ...ENGINE_TUNING, transcriptLiteralShare: 0.34 };
 	// One word of three is misspelt, so two thirds are still matched outright and the floor is
 	// met. The floor bounds how much of a query a correction may carry, not whether it may.
-	assert.deepEqual(ranked("your transmogrifer calvin", literal), ["2000-01-01"]);
+	assert.deepEqual(ranked("your transmogrifer tobias", literal), ["2000-01-01"]);
 });
 
 test("tuning is injectable and coverage is what admits partial matches", () => {
@@ -574,7 +574,7 @@ test("the description mass gate is a sum until normalized, and then a mean", () 
 			{
 				date: "2000-01-01",
 				transcript: "Whump. Thpt.",
-				description: "Calvin builds a unicorn near the sandbox, the porch and the driveway.",
+				description: "Tobias builds a unicorn near the sandbox, the porch and the driveway.",
 			},
 		]),
 	);
@@ -678,13 +678,13 @@ test("a literal query is ordered the same way as a ranked one", () => {
 // 1980, both outside the archive's own 1985-1995 span — so no existing test can pick up a date
 // match by accident, and these need in-range dates to work at all.
 const DATED: Entry[] = [
-	{ date: "1988-08-03", transcript: "A tiger appears out of nowhere.", description: "Hobbes pounces on Calvin." },
-	{ date: "1988-08-10", transcript: "The sandbox is a wasteland.", description: "Calvin digs a hole." },
-	{ date: "1989-08-03", transcript: "Snow goons are on the march.", description: "Calvin builds a snowman." },
+	{ date: "1988-08-03", transcript: "A tiger appears out of nowhere.", description: "Marlow pounces on Tobias." },
+	{ date: "1988-08-10", transcript: "The sandbox is a wasteland.", description: "Tobias digs a hole." },
+	{ date: "1989-08-03", transcript: "Snow goons are on the march.", description: "Tobias builds a snowman." },
 	{
 		date: "1988-10-27",
 		transcript: "Just think, 1988 was a fine year for dust.",
-		description: "Calvin lectures Hobbes.",
+		description: "Tobias lectures Marlow.",
 	},
 ];
 
@@ -960,7 +960,7 @@ test("an unknown filter is ordinary text, and a broken one finds nothing", () =>
 test("a filter in the middle of a query breaks the contiguous-phrase bonus", () => {
 	install(
 		buildArchive([
-			{ date: "1988-01-01", transcript: "Clean your room, Calvin!" },
+			{ date: "1988-01-01", transcript: "Clean your room, Tobias!" },
 			{ date: "1988-01-02", transcript: "Clean it. Your room is a disaster." },
 		]),
 	);
@@ -1045,8 +1045,8 @@ test("a quoted phrase must be said as written, in order and side by side", () =>
 	assert.deepEqual(dates('"goons snow"'), []);
 	assert.deepEqual(dates('"snow the march"'), []);
 	// Punctuation between the words is not part of what was said.
-	install(buildArchive([{ date: "2000-01-01", transcript: "Clean your room, Calvin!" }]));
-	assert.deepEqual(dates('"room calvin"'), ["2000-01-01"]);
+	install(buildArchive([{ date: "2000-01-01", transcript: "Clean your room, Tobias!" }]));
+	assert.deepEqual(dates('"room tobias"'), ["2000-01-01"]);
 });
 
 test("a quoted word is not extended, inflected, or corrected", () => {
@@ -1072,37 +1072,37 @@ test("a quoted phrase finds a compound spelled the other way", () => {
 
 /** The misspellings the tests below are about, read as their words, as an archive would install them. */
 const MISSPELLINGS: Compounds = new Map([
-	["suzie", ["susie"]],
+	["suzie", ["hazel"]],
 	["colour", ["color"]],
 ]);
 
-const SUSIE: Entry[] = [
-	{ date: "2000-01-01", transcript: "Susie, want to play house?" },
+const HAZEL: Entry[] = [
+	{ date: "2000-01-01", transcript: "Hazel, want to play house?" },
 	{ date: "2000-01-02", transcript: "What colour is a tiger?" },
-	{ date: "2000-01-03", transcript: "Calvin, you're a sozzled mess." },
+	{ date: "2000-01-03", transcript: "Tobias, you're a sozzled mess." },
 ];
 
 test("a known misspelling is the word itself, quoted or not", () => {
-	install(buildArchive(SUSIE));
+	install(buildArchive(HAZEL));
 	assert.deepEqual(ranked("suzie", ENGINE_TUNING, MISSPELLINGS), ["2000-01-01"]);
 	assert.equal(
 		scoreOf("suzie", "2000-01-01", ENGINE_TUNING, MISSPELLINGS),
-		scoreOf("susie", "2000-01-01", ENGINE_TUNING, MISSPELLINGS),
+		scoreOf("hazel", "2000-01-01", ENGINE_TUNING, MISSPELLINGS),
 	);
 	assert.deepEqual(ranked('"suzie"', ENGINE_TUNING, MISSPELLINGS), ["2000-01-01"]);
 	const [result] = search("suzie", "rank", ENGINE_TUNING, MISSPELLINGS);
-	assert.equal(highlightRanges(result.text, result.ranges), "<mark>Susie</mark>, want to play house?");
+	assert.equal(highlightRanges(result.text, result.ranges), "<mark>Hazel</mark>, want to play house?");
 });
 
 test("a strip that writes the misspelling is found by the word, highlighted as written", () => {
-	install(buildArchive(SUSIE));
+	install(buildArchive(HAZEL));
 	assert.deepEqual(ranked('"color"', ENGINE_TUNING, MISSPELLINGS), ["2000-01-02"]);
 	const [result] = search("color", "rank", ENGINE_TUNING, MISSPELLINGS);
 	assert.equal(highlightRanges(result.text, result.ranges), "What <mark>colour</mark> is a tiger?");
 });
 
 test("a misspelling under @not is the word too", () => {
-	install(buildArchive(SUSIE));
+	install(buildArchive(HAZEL));
 	const dates = (query: string) =>
 		search(query, "date", ENGINE_TUNING, MISSPELLINGS)
 			.map((result) => result.comic.date)
@@ -1127,7 +1127,7 @@ test("a quoted phrase in a description is highlighted whole, common words and al
 			{
 				date: "1989-08-03",
 				transcript: "Snow goons are on the march.",
-				description: "Calvin builds a snowman in the yard.",
+				description: "Tobias builds a snowman in the yard.",
 			},
 		]),
 	);

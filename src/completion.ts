@@ -633,7 +633,7 @@ function valueRows(spec: FilterSpec, value: string, parses: boolean, context: Qu
  *
  * Nor across a quotation mark, and never from inside a quotation: the parser reads everything
  * there as text, so there is nothing for a menu to complete — and an open quotation runs to the end
- * of the query, so `"rosalyn @` is the phrase being typed rather than a filter being started.
+ * of the query, so `"eleanor @` is the phrase being typed rather than a filter being started.
  *
  * It ends where the parser's filter would, not at the next space: `@has (@)`, as the bracket
  * pairing leaves it, is a bare `@` before a closing bracket, and the bracket stays where it is when
@@ -779,7 +779,7 @@ export interface FilterSpan {
  * `@only` before what is not a crossing, are wrong where they stand.
  *
  * And the brackets that pair with nothing — once there is an `@` in the query to give them a
- * meaning. Before that, `calvin (sigh` has a bracket that groups nothing, and painting it would be
+ * meaning. Before that, `tobias (sigh` has a bracket that groups nothing, and painting it would be
  * noise. A closer with nothing to close is wrong where it stands, and so is an opener closed by a
  * closer of another kind; one left open at the end is only unfinished while the query is being
  * written, as an operator with nothing after it is.

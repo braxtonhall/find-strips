@@ -31,7 +31,7 @@ import { Comic } from "./types";
  * under `@not` — is `boolean-query.ts`: different fields intersect, and repeating a field widens
  * where a strip has only one value for it (`@year:1988 @year:1989` is either year), and for the
  * books (`@in:book1 @in:book3` is either book), and narrows for the tags (`@is:sunday @is:rerun` is
- * the Sundays that ran again, and `@i:own @i:noted` the printings owned and noted) and the characters (`@featuring:susie @featuring:rosalyn` is the
+ * the Sundays that ran again, and `@i:own @i:noted` the printings owned and noted) and the characters (`@featuring:hazel @featuring:eleanor` is the
  * strips with both) and the subjects (`@about:snowmen @about:sledding` is the strips about both). The creators widen, as the books do (`@by:a @by:b` is either one's strips).
  */
 

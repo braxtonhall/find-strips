@@ -30,17 +30,17 @@ const FILLER_SUBJECTS = ["sandbox", "cardboard", "sidewalk", "kitchen", "cupboar
 
 // Most fillers carry the stopwords so that "the" and "you" end up common but not universal;
 // a word in literally every comic has an inverse document frequency of exactly zero, which
-// is a degenerate case the real archive never produces. A minority name Calvin, so that his
+// is a degenerate case the real archive never produces. A minority name Tobias, so that his
 // name is moderately common in transcripts while being universal in descriptions.
 function fillerTranscript(subject: string, index: number): string {
 	return index % 5 === 0
-		? `Calvin, nobody goes near a ${subject} anymore.`
+		? `Tobias, nobody goes near a ${subject} anymore.`
 		: `I am the one in the ${subject} and you are not going to like it at all.`;
 }
 
 /**
  * A synthetic archive padded with filler comics so that document frequencies land in a
- * realistic range. Filler descriptions all name Calvin and Hobbes, as the real ones do.
+ * realistic range. Filler descriptions all name Tobias and Marlow, as the real ones do.
  */
 export function buildArchive(entries: Entry[], fillerCount = 60): Archive {
 	const comics: Comic[] = [];
@@ -60,7 +60,7 @@ export function buildArchive(entries: Entry[], fillerCount = 60): Archive {
 		const subject = FILLER_SUBJECTS[index % FILLER_SUBJECTS.length];
 		const id = `filler${index}`;
 		comics.push({ date, id, transcript: fillerTranscript(subject, index) });
-		descriptions.set(id, `Calvin is in the ${subject}. He says something to Hobbes and Hobbes says something back.`);
+		descriptions.set(id, `Tobias is in the ${subject}. He says something to Marlow and Marlow says something back.`);
 	}
 
 	comics.sort((a, b) => a.date.localeCompare(b.date) || (a.id || "").localeCompare(b.id || ""));

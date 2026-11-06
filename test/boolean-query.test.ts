@@ -19,24 +19,24 @@ test("operators", async (suite) => {
 
 	// Google's precedence: `@or` takes the atom either side, and side by side is looser.
 	await suite.test("@or binds tighter than side by side", () => {
-		assert.deepEqual(shape("rosalyn @or baby sitter"), [["rosalyn", "sitter"], ["baby sitter"]]);
-		assert.deepEqual(shape("rosalyn @or (baby sitter)"), [["rosalyn"], ["baby sitter"]]);
+		assert.deepEqual(shape("eleanor @or baby sitter"), [["eleanor", "sitter"], ["baby sitter"]]);
+		assert.deepEqual(shape("eleanor @or (baby sitter)"), [["eleanor"], ["baby sitter"]]);
 	});
 
 	await suite.test("a group distributes over the words beside it", () => {
-		assert.deepEqual(shape("(rosalyn @or babysitter) pizza"), [["rosalyn", "pizza"], ["babysitter pizza"]]);
+		assert.deepEqual(shape("(eleanor @or babysitter) pizza"), [["eleanor", "pizza"], ["babysitter pizza"]]);
 	});
 
 	// Two words are a phrase only where the reader wrote them side by side. A parenthesis is not
 	// something written between them; an operator or another word is.
 	await suite.test("distributed words are a phrase only where they were written as one", () => {
-		assert.deepEqual(shape("calvin @or hobbes snow"), [["calvin", "snow"], ["hobbes snow"]]);
-		assert.deepEqual(shape("(calvin) (hobbes)"), [["calvin hobbes"]]);
+		assert.deepEqual(shape("tobias @or marlow snow"), [["tobias", "snow"], ["marlow snow"]]);
+		assert.deepEqual(shape("(tobias) (marlow)"), [["tobias marlow"]]);
 	});
 
 	await suite.test("@and is a space", () => {
-		assert.deepEqual(shape("calvin @and hobbes"), [["calvin", "hobbes"]]);
-		assert.deepEqual(shape("@AND calvin @Or hobbes"), [["calvin"], ["hobbes"]]);
+		assert.deepEqual(shape("tobias @and marlow"), [["tobias", "marlow"]]);
+		assert.deepEqual(shape("@AND tobias @Or marlow"), [["tobias"], ["marlow"]]);
 	});
 
 	await suite.test("@not takes one atom", () => {
@@ -64,9 +64,9 @@ test("operators", async (suite) => {
 	// One branch per distinct set of words, however many clauses distribution made of it, so the
 	// words are ranked once rather than once per clause.
 	await suite.test("clauses over the same words are one branch", () => {
-		const branches = parseQuery("calvin @not (baby sitter)");
+		const branches = parseQuery("tobias @not (baby sitter)");
 		assert.equal(branches.length, 1);
-		assert.deepEqual(branches[0].segments, ["calvin"]);
+		assert.deepEqual(branches[0].segments, ["tobias"]);
 		assert.equal(branches[0].clauses.length, 2);
 
 		assert.equal(parseQuery("@in:book1 @or @in:book3").length, 1);
@@ -101,11 +101,11 @@ test("operators", async (suite) => {
 
 	// It runs on every keystroke, and a query half typed is not a mistake.
 	await suite.test("a half-written query still parses", () => {
-		assert.deepEqual(shape("(rosalyn @or baby"), [["rosalyn"], ["baby"]]);
-		assert.deepEqual(shape("rosalyn) baby"), [["rosalyn baby"]]);
-		assert.deepEqual(shape("rosalyn @or"), [["rosalyn"]]);
-		assert.deepEqual(shape("@or rosalyn"), [["rosalyn"]]);
-		assert.deepEqual(shape("rosalyn @not"), [["rosalyn"]]);
+		assert.deepEqual(shape("(eleanor @or baby"), [["eleanor"], ["baby"]]);
+		assert.deepEqual(shape("eleanor) baby"), [["eleanor baby"]]);
+		assert.deepEqual(shape("eleanor @or"), [["eleanor"]]);
+		assert.deepEqual(shape("@or eleanor"), [["eleanor"]]);
+		assert.deepEqual(shape("eleanor @not"), [["eleanor"]]);
 		assert.deepEqual(shape("()"), []);
 		assert.deepEqual(shape("@or"), []);
 	});
@@ -123,18 +123,18 @@ test("operators", async (suite) => {
 	});
 
 	await suite.test("square and curly brackets group as parentheses do", () => {
-		const grouped = shape("(rosalyn @or baby) sitter");
-		assert.deepEqual(shape("[rosalyn @or baby] sitter"), grouped);
-		assert.deepEqual(shape("{rosalyn @or baby} sitter"), grouped);
+		const grouped = shape("(eleanor @or baby) sitter");
+		assert.deepEqual(shape("[eleanor @or baby] sitter"), grouped);
+		assert.deepEqual(shape("{eleanor @or baby} sitter"), grouped);
 		assert.ok(keeps("[@year:1988]", "1988-08-03"));
 		assert.ok(keeps("{@year:1989 @or @year:1988}", "1988-08-03"));
 	});
 
 	// A closer of another kind closes back to its own opener, as the end of the query would.
 	await suite.test("a bracket closes only its own kind", () => {
-		assert.deepEqual(shape("[(rosalyn @or baby] sitter)"), shape("(rosalyn @or baby) sitter"));
-		assert.deepEqual(shape("(rosalyn @or baby] sitter"), shape("(rosalyn @or baby sitter)"));
-		assert.deepEqual(shape("calvin ] hobbes"), [["calvin hobbes"]]);
+		assert.deepEqual(shape("[(eleanor @or baby] sitter)"), shape("(eleanor @or baby) sitter"));
+		assert.deepEqual(shape("(eleanor @or baby] sitter"), shape("(eleanor @or baby sitter)"));
+		assert.deepEqual(shape("tobias ] marlow"), [["tobias marlow"]]);
 		assert.deepEqual(shape('"[baby] sitter"'), [['"[baby] sitter"']]);
 	});
 
@@ -170,7 +170,7 @@ test("operators", async (suite) => {
 test("quotation marks", async (suite) => {
 	await suite.test("a quotation is one atom, held with straight marks", () => {
 		assert.deepEqual(shape('"baby sitter"'), [['"baby sitter"']]);
-		assert.deepEqual(shape('calvin "baby  sitter" pizza'), [['calvin "baby sitter" pizza']]);
+		assert.deepEqual(shape('tobias "baby  sitter" pizza'), [['tobias "baby sitter" pizza']]);
 		assert.deepEqual(shape("“baby sitter”"), [['"baby sitter"']]);
 		// A phone curls the marks as it pleases, and not always the right way round.
 		assert.deepEqual(shape("”baby sitter“"), [['"baby sitter"']]);
@@ -178,16 +178,16 @@ test("quotation marks", async (suite) => {
 
 	await suite.test("an unmatched quotation closes at the end", () => {
 		assert.deepEqual(shape('"baby sitter'), shape('"baby sitter"'));
-		assert.deepEqual(shape('calvin "baby sitter" "pizza'), [['calvin "baby sitter" "pizza"']]);
+		assert.deepEqual(shape('tobias "baby sitter" "pizza'), [['tobias "baby sitter" "pizza"']]);
 	});
 
 	await suite.test("an empty quotation is dropped", () => {
-		assert.deepEqual(shape('calvin "" hobbes'), [["calvin hobbes"]]);
+		assert.deepEqual(shape('tobias "" marlow'), [["tobias marlow"]]);
 		assert.deepEqual(shape('"  "'), []);
 	});
 
 	await suite.test("operators, filters and parentheses inside a quotation are text", () => {
-		assert.deepEqual(shape('"rosalyn @or baby"'), [['"rosalyn @or baby"']]);
+		assert.deepEqual(shape('"eleanor @or baby"'), [['"eleanor @or baby"']]);
 		assert.deepEqual(shape('"snow @year:1988"'), [['"snow @year:1988"']]);
 		assert.deepEqual(shape('"(baby) sitter"'), [['"(baby) sitter"']]);
 		assert.ok(keeps('"@year:1988"', "1989-08-03"), "a quoted filter restricts nothing");
@@ -195,15 +195,15 @@ test("quotation marks", async (suite) => {
 	});
 
 	await suite.test("a quotation combines like any other atom", () => {
-		assert.deepEqual(shape('rosalyn @or "baby sitter"'), [["rosalyn"], ['"baby sitter"']]);
+		assert.deepEqual(shape('eleanor @or "baby sitter"'), [["eleanor"], ['"baby sitter"']]);
 		assert.deepEqual(shape('@year:1988 "baby sitter"'), [['"baby sitter"']]);
 		assert.deepEqual(shape('"baby"@year:1988"sitter"'), [['"baby"', '"sitter"']]);
 	});
 
 	await suite.test("@not takes the whole quotation", () => {
-		assert.deepEqual(shape('calvin @not "baby sitter"'), [["calvin"]]);
+		assert.deepEqual(shape('tobias @not "baby sitter"'), [["tobias"]]);
 		const phrase = (text: string) => text === '"baby sitter"';
-		assert.ok(!keeps('calvin @not "baby sitter"', "1988-01-01", phrase));
-		assert.ok(keeps('calvin @not "baby sitter"', "1988-01-01", () => false));
+		assert.ok(!keeps('tobias @not "baby sitter"', "1988-01-01", phrase));
+		assert.ok(keeps('tobias @not "baby sitter"', "1988-01-01", () => false));
 	});
 });

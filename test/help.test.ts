@@ -13,13 +13,11 @@ test("the help page", async (suite) => {
 			assert.ok(all.includes(id), id);
 	});
 
-	await suite.test("leaves out what this site has turned off", () => {
-		// This archive has no creators and no subjects.
-		assert.ok(!ids().includes("strips-by"));
-		assert.ok(!ids().includes("strips-about"));
-		assert.ok(!runs("@about:snowmen", STRIP_QUERY));
-		assert.ok(!runs("@about (@id:snowmen)", STRIP_QUERY));
-		assert.ok(runs("@featuring:susie", STRIP_QUERY));
+	await suite.test("explains the filters of the parts this site has", () => {
+		assert.ok(ids().includes("strips-by"));
+		assert.ok(ids().includes("strips-about"));
+		assert.ok(runs("@about:kite", STRIP_QUERY));
+		assert.ok(runs("@featuring:wren", STRIP_QUERY));
 	});
 
 	await suite.test("lists a filter's values where they are few", () => {
@@ -46,7 +44,7 @@ test("the help page", async (suite) => {
 			const entry = entries.find((each) => each.id === `collections-${name}`)!;
 			assert.match(entry.notes.join(" "), /inside `@in \( … \)` or `@has \( … \)`/, name);
 		}
-		assert.ok(runs("@in (@id:yukonho @book:2 @page:47)", STRIP_QUERY));
+		assert.ok(runs("@in (@id:pipandmarlow @book:2 @page:7)", STRIP_QUERY));
 		assert.ok(!runs("@page:47", STRIP_QUERY));
 	});
 
@@ -68,6 +66,6 @@ test("a search box's way to the help page", async (suite) => {
 	await suite.test("goes to the language's section otherwise", () => {
 		assert.equal(helpAnchor("strip"), "strips");
 		assert.equal(helpAnchor("collection"), "collections");
-		assert.equal(helpAnchor("strip", "about"), "strips");
+		assert.equal(helpAnchor("strip", "about"), "strips-about");
 	});
 });

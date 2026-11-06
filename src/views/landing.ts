@@ -61,7 +61,7 @@ function typeStep(input: HTMLInputElement, query: string, landed: number): void 
  *
  * The die failed in both directions at once: for a reader who came to type it was a dead control in
  * the most valuable position on the site, and for a reader who pressed it the pool is half prose,
- * so the button meant to reveal the filter syntax most likely landed them on `susie`. This does the
+ * so the button meant to reveal the filter syntax most likely landed them on `hazel`. This does the
  * teaching the die was for without spending the centre of the page advertising itself — it is found
  * by pressing the obvious button on an empty field, which is a thing readers do.
  *

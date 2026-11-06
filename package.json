@@ -67,12 +67,14 @@
 		"check": "node bin/find-strips.mjs check demo/config.yaml",
 		"candidates": "node bin/find-strips.mjs candidates demo/config.yaml",
 		"images": "node --import tsx scripts/make-demo-images.ts",
-		"test": "SITE_CONFIG=demo/config.yaml node --import tsx --test \"test/**/*.test.ts\"",
+		"test": "yarn test:full && yarn test:bare",
 		"typecheck": "tsc --noEmit",
 		"lint": "eslint .",
 		"fix": "yarn lint --fix",
 		"pretty": "yarn prettier --write .",
-		"prepare": "husky"
+		"prepare": "husky",
+		"test:full": "node --import tsx --import ./test/setup.ts --test \"test/*.test.ts\"",
+		"test:bare": "node --import tsx --import ./test/bare/setup.ts --test \"test/bare/*.test.ts\""
 	},
 	"lint-staged": {
 		"*.{yml,yaml,md,json,ts,js,html,css}": "prettier --write"

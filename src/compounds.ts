@@ -2,7 +2,7 @@
  * The compound words the search treats as their parts, so `goodnight` and `good night` find each
  * other: read from the archive and `compounds.yaml` by `build-chain/compoundLexicon.ts`. Beside
  * them, the misspellings `misspellings.yaml` gives, which the search treats as their words, so
- * `suzie` is `susie`.
+ * `suzie` is `hazel`.
  *
  * Relations preserve whole-form identity; canonical forms are a derived matching/indexing view,
  * with the misspellings folded in.

@@ -27,8 +27,8 @@ import { Comic } from "./types";
  *
  * - `@not` takes the one atom after it: `@not baby sitter` is sitter without baby, and
  *   `@not (baby sitter)` is anything but both.
- * - `@or` takes the atom either side: `rosalyn @or baby sitter` is `(rosalyn or baby) sitter`, and
- *   the phrase needs its parentheses — `rosalyn @or (baby sitter)`.
+ * - `@or` takes the atom either side: `eleanor @or baby sitter` is `(eleanor or baby) sitter`, and
+ *   the phrase needs its parentheses — `eleanor @or (baby sitter)`.
  * - Side by side is AND — with the one exception filters have always had. A strip ran on one day,
  *   so two values of one calendar field side by side could only ever be nothing, and they mean
  *   either instead: `@year:1988 @year:1989` is both years, and `@day:saturday @day:sunday` is the
@@ -56,14 +56,14 @@ import { Comic } from "./types";
  * and an operator with nothing to work on is ignored. Square and curly brackets group as
  * parentheses do, each closing only its own kind — see `scanBrackets`.
  *
- * A quotation is one atom, a phrase, and everything in it is text: `"rosalyn @or baby"` is the
- * words `rosalyn or baby` in that order, not a choice between two of them. So `@not "baby sitter"`
+ * A quotation is one atom, a phrase, and everything in it is text: `"eleanor @or baby"` is the
+ * words `eleanor or baby` in that order, not a choice between two of them. So `@not "baby sitter"`
  * is anything that does not say baby sitter, where `@not baby sitter` is sitter without baby.
  *
  * What comes out is not a tree. A query is distributed into an OR of plain queries — branches —
  * each of which is exactly what a query was before any of this: words, ranked together as one
- * recitation, and filters that judge the rows. `(rosalyn @or babysitter) pizza` is
- * `rosalyn pizza` or `babysitter pizza`, so each half keeps the phrase scoring and the forgiveness
+ * recitation, and filters that judge the rows. `(eleanor @or babysitter) pizza` is
+ * `eleanor pizza` or `babysitter pizza`, so each half keeps the phrase scoring and the forgiveness
  * of a misremembered line that splitting the words into separate searches would throw away. And a
  * query without an operator is a single branch, which is the guarantee that none of this changes
  * what it returns. Distribution stops at a crossing operator, which is one atom however much is
@@ -397,7 +397,7 @@ function lex(text: string, root: QueryContext): { tokens: Token[]; after: QueryC
 		cursor = span.end;
 		const { token } = span;
 		// A parenthesis takes no position, so it never separates two words: in
-		// `(rosalyn @or baby) sitter`, `baby sitter` is still a phrase the reader wrote.
+		// `(eleanor @or baby) sitter`, `baby sitter` is still a phrase the reader wrote.
 		if (token.kind === "empty") continue;
 		if (token.kind === "raw") {
 			tokens.push({ kind: "filter", match: readMatch(token.raw, here()), position: position++ });
@@ -663,8 +663,8 @@ function normalise(node: Node, negated: boolean): Literal[][] {
 
 /**
  * The words of one clause as runs the reader actually wrote: two words are one run only where they
- * stood next to each other. In `calvin @or hobbes snow`, the clause `hobbes snow` is a phrase and
- * the clause `calvin snow` is two words that were never side by side, which the ranked search must
+ * stood next to each other. In `tobias @or marlow snow`, the clause `marlow snow` is a phrase and
+ * the clause `tobias snow` is two words that were never side by side, which the ranked search must
  * not reward as though they had been. The same rule a filter between two words has always followed.
  */
 function segmentsOf(words: TextLeaf[]): string[] {
@@ -784,8 +784,8 @@ function treeOf(text: string, root: QueryContext): Node | null {
 
 /**
  * The query, as the plain queries it is the OR of. Clauses that would rank the same words are one
- * branch, so the words are searched once and only the rows it keeps differ: `calvin @not (baby
- * sitter)` is one search for `calvin`, keeping rows without baby or without sitter.
+ * branch, so the words are searched once and only the rows it keeps differ: `tobias @not (baby
+ * sitter)` is one search for `tobias`, keeping rows without baby or without sitter.
  *
  * Empty where the query has nothing in it to search — no atoms at all, a clause that holds a filter
  * nothing can satisfy, or more clauses than `MAX_CLAUSES`.

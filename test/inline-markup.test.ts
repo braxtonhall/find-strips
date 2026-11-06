@@ -30,7 +30,7 @@ test("inline markup", async (suite) => {
 			assert.ok(!collection.name.includes("<"), `${collection.id}'s name has markup`);
 			if (collection.styledName) assert.equal(plainText(collection.styledName), collection.name);
 		}
-		const packed = index.collections.find((collection) => collection.id === "packed");
-		assert.equal(packed?.styledName, "The Days Are Just <i>Packed</i>");
+		const packed = index.collections.find((collection) => collection.id === "pipstrikesagain");
+		assert.equal(packed?.styledName, "Pip Strikes <i>Again</i>");
 	});
 });

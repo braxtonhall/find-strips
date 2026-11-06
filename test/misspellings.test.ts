@@ -12,8 +12,8 @@ import { withConfig } from "./helpers/config";
 
 // `goodnight` once, `good night` twice: the rule splits it.
 const COMICS = `strips:
-  "20000101": Say goodnight, Susie.
-  "20000102": Good night, Hobbes.
+  "20000101": Say goodnight, Hazel.
+  "20000102": Good night, Marlow.
   "20000103": Good night, Mom.
 `;
 
@@ -37,10 +37,10 @@ test("a misspellings.yaml with nothing in it is the same as the misspellings off
 });
 
 test("each misspelling is read as its word", () => {
-	withProject("susie: [suzie, suzy]\n", (config) => {
-		assert.deepEqual(forms(config).get("suzie"), ["susie"]);
-		assert.deepEqual(forms(config).get("suzy"), ["susie"]);
-		assert.equal(forms(config).has("susie"), false);
+	withProject("hazel: [suzie, suzy]\n", (config) => {
+		assert.deepEqual(forms(config).get("suzie"), ["hazel"]);
+		assert.deepEqual(forms(config).get("suzy"), ["hazel"]);
+		assert.equal(forms(config).has("hazel"), false);
 	});
 });
 
@@ -63,16 +63,16 @@ test("a malformed misspellings.yaml stops the build", () => {
 		withProject(contents, (config) => assert.throws(() => readMisspellingsFile(config), message));
 
 	rejects("- suzie\n", /must map each word/);
-	rejects("susie: suzie\n", /must be a list/);
-	rejects("Susie: [suzie]\n", /not one lowercase word/);
-	rejects("susie: [Suzie]\n", /not one lowercase word/);
-	rejects("susie: [suzie derkins]\n", /not one lowercase word/);
-	rejects("susie: [susie]\n", /the word itself/);
-	rejects("susie: [suzie]\nsuzie: [suzy]\n", /as a word and a misspelling/);
-	rejects("susie: [suzie]\nsuzanne: [suzie]\n", /more than once/);
+	rejects("hazel: suzie\n", /must be a list/);
+	rejects("Hazel: [suzie]\n", /not one lowercase word/);
+	rejects("hazel: [Suzie]\n", /not one lowercase word/);
+	rejects("hazel: [suzie perkins]\n", /not one lowercase word/);
+	rejects("hazel: [hazel]\n", /the word itself/);
+	rejects("hazel: [suzie]\nsuzie: [suzy]\n", /as a word and a misspelling/);
+	rejects("hazel: [suzie]\nsuzanne: [suzie]\n", /more than once/);
 });
 
 test("this archive reads its misspellings as their words", () => {
-	assert.deepEqual(CANONICAL_FORMS.get("suzie"), ["susie"]);
+	assert.deepEqual(CANONICAL_FORMS.get("marlowe"), ["marlow"]);
 	assert.deepEqual(CANONICAL_FORMS.get("colour"), ["color"]);
 });

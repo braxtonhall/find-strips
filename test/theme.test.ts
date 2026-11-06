@@ -11,8 +11,23 @@ import { withConfig } from "./helpers/config";
  * stylesheets were written against.
  */
 
-test("the colours drawn from this archive's theme", () => {
-	const properties = themeProperties(loadTheme());
+/** The palette the stylesheets were hand-written in, before the theme was configurable. */
+const ORIGINAL_THEME = `theme:
+  background: "#fbf6f0"
+  text: "#333333"
+  textMuted: "#888888"
+  main: "#f6b213"
+  bookmark: "#fe7900"
+  neutral: "#e0e0e0"
+  selected: "#e6052f"
+  hover: "#ffd700"
+  hoverRow: "#fff8e1"
+  match: "#fff176"
+  matchApproximate: "#fff8c4"
+`;
+
+test("the colours drawn from the original theme", () => {
+	const properties = themeProperties(withConfig(ORIGINAL_THEME, loadTheme));
 	// These were hand-written in `base.css` before the theme was configurable, and are what the
 	// ramp's spacing was judged on.
 	assert.equal(properties["main-text"], "#c58e0f");

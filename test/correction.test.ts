@@ -19,7 +19,7 @@ const template = fs.readFileSync(path.join(PROJECT_DIR, "src", "index.html"), "u
 
 const options = { siteUrl: "https://example.test", path: "", commit: "abc1234" };
 
-/** The URL a page's link leads to, which the tests below expect `config.yaml` to give every page but home, search and the settings. */
+/** The URL a page's link leads to, which the tests below expect the demo's configuration to give every page but home, search and the settings. */
 function correction(context: Parameters<typeof buildCorrectionUrl>[0]): string {
 	const url = buildCorrectionUrl(context);
 	assert.ok(url, `${context.view} has a corrections template`);
@@ -49,7 +49,7 @@ const rerun: Page = { ...detail, date: "1995-12-31", rerunOf: "1986-07-07" };
 
 const collection: Page = {
 	view: "collection",
-	id: "yukonho",
+	id: "pipandmarlow",
 	collection: null,
 	indexLoaded: true,
 	extras: [],
@@ -72,40 +72,39 @@ function link(html: string): string {
 
 test("the corrections form's address", async (suite) => {
 	await suite.test("checks the box for the kind of page it was sent from", () => {
-		assert.match(correction({ view: "detail", url: "", commit: "" }), /entry.762468410=Comic/);
-		assert.match(correction({ view: "collection", url: "", commit: "" }), /entry.762468410=Book/);
-		assert.match(correction({ view: "collections", url: "", commit: "" }), /entry.762468410=Book/);
-		assert.match(correction({ view: "arc", url: "", commit: "" }), /entry.762468410=Arc/);
-		assert.match(correction({ view: "arcs", url: "", commit: "" }), /entry.762468410=Arc/);
+		assert.match(correction({ view: "detail", url: "", commit: "" }), /kind=Comic/);
+		assert.match(correction({ view: "collection", url: "", commit: "" }), /kind=Book/);
+		assert.match(correction({ view: "collections", url: "", commit: "" }), /kind=Book/);
+		assert.match(correction({ view: "arc", url: "", commit: "" }), /kind=Arc/);
+		assert.match(correction({ view: "arcs", url: "", commit: "" }), /kind=Arc/);
 	});
 
 	await suite.test("checks the rerun box alongside the strip's on a rerun day", () => {
 		const kinds = (rerun: boolean) =>
-			new URL(correction({ view: "detail", url: "", commit: "", rerun })).searchParams.getAll("entry.762468410");
+			new URL(correction({ view: "detail", url: "", commit: "", rerun })).searchParams.getAll("kind");
 		assert.deepEqual(kinds(true), ["Comic", "Rerun"]);
 		assert.deepEqual(kinds(false), ["Comic"]);
 	});
 
 	await suite.test("checks nothing where the page is about no one strip or book", () => {
 		// Credits shows the link and lets the reader say what they mean.
-		assert.doesNotMatch(correction({ view: "credits", url: "", commit: "" }), /entry.762468410/);
+		assert.doesNotMatch(correction({ view: "credits", url: "", commit: "" }), /kind/);
 	});
 
 	await suite.test("names the page, the site it is on, and the build it was made by", () => {
 		const url = correction({ view: "detail", url: "https://example.test/1986-07-07", commit: "abc1234" });
 		const parameters = new URL(url).searchParams;
-		assert.equal(parameters.get("usp"), "pp_url");
-		assert.equal(parameters.get("entry.1138251038"), "https://example.test/1986-07-07");
-		assert.equal(parameters.get("entry.2127852102"), "https://example.test");
-		assert.equal(parameters.get("entry.46703544"), "abc1234");
+		assert.equal(parameters.get("page"), "https://example.test/1986-07-07");
+		assert.equal(parameters.get("site"), "https://example.test");
+		assert.equal(parameters.get("commit"), "abc1234");
 	});
 
 	await suite.test("has no site to name when the build had no address to write", () => {
 		// What a build with no SITE_URL writes; the app puts the real address there once it runs.
 		const url = correction({ view: "detail", url: "/1986-07-07", commit: "abc1234" });
 		const parameters = new URL(url).searchParams;
-		assert.equal(parameters.get("entry.1138251038"), "/1986-07-07");
-		assert.equal(parameters.get("entry.2127852102"), "");
+		assert.equal(parameters.get("page"), "/1986-07-07");
+		assert.equal(parameters.get("site"), "");
 	});
 
 	await suite.test("is there only for a kind of page with a template", () => {
@@ -134,12 +133,12 @@ test("the corrections form's address", async (suite) => {
 
 test("a document's corrections link", async (suite) => {
 	await suite.test("opens the form about the page it is on", () => {
-		assert.match(link(document(detail, "/1986-07-07")), /entry.762468410=Comic/);
-		assert.match(link(document(detail, "/1986-07-07")), /entry.1138251038=https%3A%2F%2Fexample.test%2F1986-07-07/);
-		assert.doesNotMatch(link(document(detail, "/1986-07-07")), /entry.762468410=Rerun/);
-		assert.match(link(document(rerun, "/1995-12-31")), /entry.762468410=Comic&amp;entry.762468410=Rerun/);
-		assert.match(link(document(collection, "/book/yukonho")), /entry.762468410=Book/);
-		assert.doesNotMatch(link(document({ view: "credits" }, "/credits")), /entry.762468410/);
+		assert.match(link(document(detail, "/1986-07-07")), /kind=Comic/);
+		assert.match(link(document(detail, "/1986-07-07")), /page=https%3A%2F%2Fexample.test%2F1986-07-07/);
+		assert.doesNotMatch(link(document(detail, "/1986-07-07")), /kind=Rerun/);
+		assert.match(link(document(rerun, "/1995-12-31")), /kind=Comic&amp;kind=Rerun/);
+		assert.match(link(document(collection, "/book/pipandmarlow")), /kind=Book/);
+		assert.doesNotMatch(link(document({ view: "credits" }, "/credits")), /kind/);
 	});
 
 	await suite.test("is written where it does not show, so that the app can show it later", () => {

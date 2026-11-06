@@ -79,9 +79,9 @@ test("the collection index", async (suite) => {
 		}
 	});
 
-	// A floor rather than a count: the eleven books, the treasuries, the Complete and the Sunday
-	// collections are all indexed today, and nothing here should start passing by emitting less.
+	// A floor rather than a count: the demo's four books are all indexed today, and nothing here
+	// should start passing by emitting less.
 	await suite.test("is not empty", () => {
-		assert.ok(index.collections.length >= 18, `only ${index.collections.length} collections`);
+		assert.ok(index.collections.length >= 4, `only ${index.collections.length} collections`);
 	});
 });

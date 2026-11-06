@@ -2,7 +2,7 @@
  * The compound lexicon of `src/compounds.ts`, read from the archive and the compounds `config.yaml` gives.
  *
  * `goodnight` and `good night` are the same phrase to a reader and two unrelated tokens to
- * the engine, which is how `aren't you going to say goodnight to hobbes` reaches a strip
+ * the engine, which is how `aren't you going to say goodnight to marlow` reaches a strip
  * that writes it open and finds nothing. Canonicalising both the index and the query onto
  * the open form removes the distinction.
  *

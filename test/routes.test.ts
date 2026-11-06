@@ -31,10 +31,10 @@ test("routes", async (suite) => {
 		try {
 			PAGE_CONFIG.creators = true;
 			assert.deepEqual(parseRoutePath(CREATORS_PATH, ""), { view: "creators" });
-			assert.deepEqual(parseRoutePath(buildCreatorPath("watterson"), ""), { view: "creator", id: "watterson" });
+			assert.deepEqual(parseRoutePath(buildCreatorPath("author"), ""), { view: "creator", id: "author" });
 			PAGE_CONFIG.creators = false;
 			assert.equal(parseRoutePath(CREATORS_PATH, ""), null);
-			assert.equal(parseRoutePath(buildCreatorPath("watterson"), ""), null);
+			assert.equal(parseRoutePath(buildCreatorPath("author"), ""), null);
 		} finally {
 			PAGE_CONFIG.creators = creators;
 		}
@@ -66,7 +66,7 @@ test("routes", async (suite) => {
 			alternates: ["19860707"],
 		});
 
-		assert.deepEqual(parseRoutePath(buildCollectionPath("yukonho"), ""), { view: "collection", id: "yukonho" });
+		assert.deepEqual(parseRoutePath(buildCollectionPath("taigabook"), ""), { view: "collection", id: "taigabook" });
 		assert.deepEqual(parseRoutePath(buildArcPath("tigertrap"), ""), { view: "arc", id: "tigertrap" });
 
 		const [searchPath, searchQuery] = buildSearchPath("snow goons & co", "date").split("?");
@@ -85,7 +85,7 @@ test("routes", async (suite) => {
 		assert.equal(normalizePathname("/1986-07-07/"), "/1986-07-07");
 		assert.equal(normalizePathname("/1986-07-07.html"), "/1986-07-07");
 		assert.equal(normalizePathname("/1986-07-07/index.html"), "/1986-07-07");
-		assert.equal(normalizePathname("/book/yukonho.html"), "/book/yukonho");
+		assert.equal(normalizePathname("/book/taigabook.html"), "/book/taigabook");
 		assert.equal(normalizePathname("/index.html"), "/");
 		assert.equal(normalizePathname("/"), "/");
 		assert.deepEqual(parseRoutePath("/credits/", ""), { view: "credits" });
@@ -112,8 +112,8 @@ test("routes", async (suite) => {
 
 	// On purpose, and with no forwarding: a book's old address is not ours any more.
 	await suite.test("a book lives at /book, and its old address goes nowhere", () => {
-		assert.equal(buildCollectionPath("yukonho"), "/book/yukonho");
-		assert.equal(parseRoutePath("/collection/yukonho", ""), null);
+		assert.equal(buildCollectionPath("taigabook"), "/book/taigabook");
+		assert.equal(parseRoutePath("/collection/taigabook", ""), null);
 	});
 
 	await suite.test("the old list of books is the books tab, under the books' own address", () => {
@@ -136,7 +136,7 @@ test("routes", async (suite) => {
 		assert.equal(legacyHashPath("#/credits"), "/credits");
 		assert.equal(legacyHashPath("#/comic/1986-07-07"), "/1986-07-07");
 		assert.equal(legacyHashPath("#/comic/1986-07-07?alternate=19860707"), "/1986-07-07?alternate=19860707");
-		assert.equal(legacyHashPath("#/collection/yukonho"), "/book/yukonho");
+		assert.equal(legacyHashPath("#/collection/taigabook"), "/book/taigabook");
 		assert.equal(legacyHashPath("#/search?q=snow%20goons&sort=date"), "/search?q=snow%20goons&sort=date");
 		// Not a route at all, so not a legacy one either: the skip link's target, and no hash.
 		assert.equal(legacyHashPath("#main"), null);
