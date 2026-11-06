@@ -24,8 +24,11 @@ jobs:
       - name: typecheck
         run: yarn typecheck
 
+      - name: lint
+        run: yarn lint
+
       - name: test
         run: yarn test
 
-      - name: build
+      - name: build the demo
         run: yarn build

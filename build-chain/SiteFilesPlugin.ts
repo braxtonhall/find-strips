@@ -4,6 +4,7 @@ import type { Compiler, Compilation } from "webpack";
 import { sources } from "webpack";
 import { buildManifest, emitFavicon } from "./favicon";
 import {
+	configPath,
 	watchConfigIn,
 	loadFaviconFile,
 	loadLandingFile,
@@ -26,10 +27,14 @@ const PLUGIN_NAME = "SiteFilesPlugin";
  * would serve it from the root, and `user.github.io` in the file is a domain GitHub refuses.
  */
 class SiteFilesPlugin {
-	constructor(private readonly staticDir: string) {}
+	/**
+	 * @param defaultsDir where the engine's own copies of the static files are, used for any the site
+	 *   does not provide in a `static/` folder beside its configuration file.
+	 */
+	constructor(private readonly defaultsDir: string) {}
 
 	apply(compiler: Compiler): void {
-		const staticDir = this.staticDir;
+		const defaultsDir = this.defaultsDir;
 
 		compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: Compilation) => {
 			watchConfigIn(compilation);
@@ -44,7 +49,10 @@ class SiteFilesPlugin {
 					const siteUrl = config?.siteUrl ?? "";
 					const basePath = config?.basePath ?? "/";
 
-					const robotsSource = fs.readFileSync(path.join(staticDir, "robots.txt"), "utf8");
+					const own = path.join(path.dirname(configPath()), "static", "robots.txt");
+					const robotsFile = fs.existsSync(own) ? own : path.join(defaultsDir, "robots.txt");
+					compilation.fileDependencies.add(robotsFile);
+					const robotsSource = fs.readFileSync(robotsFile, "utf8");
 					const robotsLines = siteUrl
 						? robotsSource.split("\n")
 						: robotsSource.split("\n").filter((line) => !line.includes("{{siteUrl}}"));

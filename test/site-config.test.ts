@@ -199,7 +199,7 @@ test("config.yaml", async (suite) => {
 						path.join(projectDir, "comics", "index.yaml"),
 						path.join(projectDir, "comics", "specials", "one.yaml"),
 						path.join(projectDir, "books", "one.yaml"),
-						path.join(process.cwd(), ".env"),
+						path.join(projectDir, ".env"),
 					],
 					directories: [path.join(projectDir, "comics", "specials"), path.join(projectDir, "books")],
 				});

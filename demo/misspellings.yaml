@@ -1,0 +1,8 @@
+# Misspellings: words a reader writes wrong so often that the search should take them as the word
+# itself. Each word as the archive spells it, with a list of the ways it is misspelled: lowercase,
+# one word each, and every misspelling listed once.
+#
+# Optional. Without this file, the search still forgives a near miss, just not as the word itself.
+
+marlow: [marlowe, marlo]
+hester: [hestor]

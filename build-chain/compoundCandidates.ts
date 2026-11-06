@@ -3,7 +3,7 @@
  * paste into its `compounds` groups — or, for a real word that is not a compound, into `keepWhole`.
  *
  * This deliberately includes every plausible balanced/closed split that can be found in the
- * corpus, so it is a curation surface rather than a list to paste whole. Run with `yarn candidates`.
+ * corpus, so it is a curation surface rather than a list to paste whole. Run with `find-strips candidates`.
  */
 import { CompoundRelation } from "../src/compounds";
 import { MINIMUM_PART, countCorpus, readCompoundsFile } from "./compoundLexicon";
@@ -42,11 +42,14 @@ export function buildCandidates(config?: string): CompoundRelation[] {
 	return [...candidates].sort(([a], [b]) => a.localeCompare(b)).map(([, candidate]) => candidate);
 }
 
-const candidates = buildCandidates();
-for (const preference of ["closed", "balanced"] as const) {
-	const group = candidates.filter((candidate) => candidate.preference === preference);
-	if (group.length === 0) continue;
-	console.log(`  ${preference}:`);
-	for (const candidate of group) console.log(`    ${candidate.whole}: ${candidate.parts.join(" ")}`);
+/** Prints the candidates, as `find-strips candidates` does, and how many there were on stderr. */
+export function printCandidates(config?: string): void {
+	const candidates = buildCandidates(config);
+	for (const preference of ["closed", "balanced"] as const) {
+		const group = candidates.filter((candidate) => candidate.preference === preference);
+		if (group.length === 0) continue;
+		console.log(`  ${preference}:`);
+		for (const candidate of group) console.log(`    ${candidate.whole}: ${candidate.parts.join(" ")}`);
+	}
+	console.error(`${candidates.length} candidates not yet in compounds.yaml`);
 }
-console.error(`${candidates.length} candidates not yet in compounds.yaml`);

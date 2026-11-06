@@ -1,0 +1,26 @@
+id: pipandmarlow
+name: Pip and Marlow
+subtitle: Collection
+pub_year: 1990
+pub_month: 9
+isbn:
+  - 0-000-00001-1
+colour: false
+notes:
+  - The first collection. Sundays are printed in greyscale.
+image: !Path ./covers/pipandmarlow.png
+links:
+  - title: Publisher's page
+    href: https://example.com/books/pip-and-marlow
+
+pages:
+  5: [19900305, 19900306, 19900307]
+  6: [19900308, 19900309, 19900310]
+  7: [19900311, 19900312, 19900313]
+  8: [19900314, 19900315, 19900316]
+  9: [19900317, 19900318, 19900319]
+  10: [19900320, 19900321, 19900322]
+  11: [19900323, 19900324, 19900325]
+  12: [19900326, 19900327, 19900328]
+  13: [19900329, 19900330, 19900331]
+  14: [19900401, 19900402, 19900403]

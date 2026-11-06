@@ -1,0 +1,93 @@
+"19910107":
+  transcript: "Today I am going to be very brave. How brave? I will talk to the dentist. Without crying? Without crying much."
+  description: "Pip goes to the dentist."
+  characters: [pip, marlow, { mentioned: mum }]
+"19910108":
+  transcript: "I can fit in this box. You are too big. Watch. You are in the box. You are the box."
+  description: "Pip crams himself into a cardboard box."
+  characters: [pip, marlow]
+"19910109":
+  transcript: "Mum says the moon will be big tonight. Bigger than last night? Bigger than all of them."
+  description: "Pip hears about the moon from Mum."
+  characters: [pip, marlow, { heard: mum }]
+  subjects: [moon]
+"19910110":
+  transcript: "We are not supposed to be out. We are in the garden. The garden is out. Technically the garden is in."
+  description: "Pip and Marlow tiptoe into the garden to look at the moon."
+  characters: [pip, marlow]
+  subjects: [moon]
+"19910111":
+  transcript: "It is the biggest moon I have ever seen. It is the same moon as always. It is wearing a hat tonight."
+  description: "Pip and Marlow sit under a very bright moon."
+  characters: [pip, marlow]
+  subjects: [moon]
+"19910112":
+  transcript: "What do clouds taste like? Rain. No, before it's rain. Cloud. That is circular."
+  description: "Pip speculates about clouds."
+  characters: [pip, marlow]
+"19910113":
+  transcript: "The librarian says we're too loud. We're whispering. You whisper loudly. I'm a loud whisperer."
+  description: "Pip is shushed in the library."
+  characters: [pip, marlow]
+"19910114":
+  transcript: "Hester says a noun is a person, place or thing. Is a goose a person? He is a thing. I'm a person-thing."
+  description: "Marlow argues grammar with Pip."
+  characters: [pip, marlow, hester]
+"19910115":
+  transcript: "I have decided to be a detective. The case: who ate the last biscuit. The suspects? Gus, Mum, you. I'm not a suspect. You have crumbs."
+  description: "Pip investigates a missing biscuit."
+  characters: [pip, marlow, gus, { mentioned: mum }]
+"19910116":
+  transcript: "Wren's bicycle bell is gone. Someone must have rung it away. That is not how bells work. Ring-ring. That is not my bell."
+  description: "Wren's bell goes missing."
+  characters: [wren, pip, marlow]
+"19910117":
+  transcript: "Race you to the fence! You'll lose. I always lose. Then why race? For the fence."
+  description: "Pip races Marlow to the fence."
+  characters: [pip, marlow]
+"19910118":
+  transcript: "Dad's tie has a stain. It is a gravy map. Of where? Of last Tuesday."
+  description: "Dad wears a stained tie to work."
+  characters: [dad, pip]
+"19910119":
+  transcript: "The recipe says to fold the egg whites. I do not fold eggs. You fold paper. Eggs can learn."
+  description: "Pip tries to fold eggs."
+  characters: [pip, marlow, { mentioned: mum }]
+"19910120":
+  transcript: "Gus barked at the moon again. It did not answer. It never does. He is persistent."
+  description: "Gus barks at the moon."
+  characters: [gus, pip]
+  subjects: [moon]
+"19910121":
+  transcript: "There's a hole in my pocket and nothing in it. That's a well-organised hole. It's a pocket of potential."
+  description: "Pip empties a pocket."
+  characters: [pip, marlow]
+"19910122":
+  transcript: "Bram says I'm afraid of heights. I'm afraid of falling. That's heights with extra steps. They are the same step."
+  description: "Bram teases Pip at the top of the slide."
+  characters: [pip, bram, marlow]
+"19910123":
+  transcript: "The mirror in the hall is wavy. I look taller in it. You look like soup. I look like tall soup."
+  description: "Pip admires a funhouse mirror."
+  characters: [pip, marlow]
+  subjects: [soup]
+"19910124":
+  transcript: "What would you wish for? A day with no Mondays. That is all of them. Then I wish for a day with no Mondays."
+  description: "Pip wishes on a dandelion."
+  characters: [pip, marlow]
+"19910125":
+  transcript: "There is a bee on my sandwich. Share. It is my sandwich. The bee is very polite about it."
+  description: "A bee joins Pip's lunch."
+  characters: [pip, marlow]
+"19910126":
+  transcript: "Miss Hester gave us homework over the weekend. On the weekend! There's no mercy. There's a little mercy. It is due Monday."
+  description: "Pip groans at weekend homework."
+  characters: [pip, hester, marlow]
+"19910127":
+  transcript: "I cleaned my room. Where is everything? In the closet. Where is the closet? It is full."
+  description: "Pip tidies by hiding."
+  characters: [pip, { mentioned: mum }, marlow]
+"19910128":
+  transcript: "Marlow, why do you always follow me? I'm not following. I'm just going the same way. All the time? On purpose."
+  description: "Marlow insists he is not following."
+  characters: [pip, marlow]

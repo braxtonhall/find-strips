@@ -1,0 +1,20 @@
+kite:
+  name: The Kite
+  description: Pip's kite, which has never once flown the way he planned.
+  keywords: [wind, oak, tree]
+soup:
+  name: Soup
+  description: Pip's soup, in every flavour from jam to second place.
+  keywords: [ladle, contest, cooking]
+potato:
+  name: The Potato
+  description: A potato that is, according to Pip, a battery.
+  keywords: [battery, science]
+sandcastle:
+  name: Sandcastles
+  description: Pip's sandcastles, which are heaps with flags.
+  keywords: [beach, moat, tide]
+moon:
+  name: The Moon
+  description: Everything Pip, Marlow and Gus say to the moon.
+  keywords: [night, sky]

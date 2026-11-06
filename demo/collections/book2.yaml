@@ -1,0 +1,23 @@
+id: pipstrikesagain
+name: Pip Strikes <i>Again</i>
+subtitle: Collection
+pub_year: 1991
+pub_month: 3
+isbn:
+  - 0-000-00002-2
+colour: true
+notes:
+  - The second collection. Sundays are printed in colour.
+alterations:
+  19900414: "A word in the second panel was changed."
+image: !Path ./covers/pipstrikesagain.png
+
+pages:
+  6: [19900329, 19900330, 19900331, 19900401]
+  7: [19900402, 19900403, 19900404, 19900405]
+  8: [19900406, 19900407, 19900408, 19900409]
+  9: [19900410, 19900411, 19900412, 19900413]
+  10: [19900414, 19900415, 19900416, 19900417]
+  11: [19900418, 19900419, 19900420, 19900421]
+  12: [19900422, 19900423, 19900424, 19900425]
+  13: [19900426, 19900427, 19900428, 19900429]

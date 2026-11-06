@@ -1,0 +1,11 @@
+# Compound words: `sandbox` and `sand box` are one phrase to a reader and two unrelated words to
+# the search, so a compound listed here is indexed and searched as its parts, either spelling
+# finding both.
+#
+# Optional. Without this file the search still splits a closed word wherever the archive itself
+# writes it open at least as often, and nothing else.
+
+# Real words the rule would split wrongly, kept whole.
+keepWhole:
+  - washer # was her
+  - theirs # the irs

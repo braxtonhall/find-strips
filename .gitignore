@@ -1,6 +1,5 @@
 node_modules/
 dist/
-calvin-and-hobbes/comics/images/
 .env
 .DS_Store
 .npmrc

@@ -1,0 +1,237 @@
+"19900305":
+  transcript: "Why is the sky blue? Because it was on sale. Is that true? It is true until someone checks."
+  description: "Pip asks Marlow why the sky is blue."
+  characters: [pip, marlow]
+"19900306":
+  transcript: "Gus has learned a new trick. He sits. He has always sat. Now he sits on purpose."
+  description: "Gus sits on command, mostly by accident."
+  characters: [pip, gus, marlow]
+"19900307":
+  transcript: "Dad is reading the paper upside down. He says it is a new way to find good news. Mum says that is the sports page."
+  description: "Dad squints at an upside-down newspaper."
+  characters: [dad, { heard: mum }, pip]
+"19900308":
+  transcript: "What are you drawing? A map. Of what? Of a place I haven't been. How do you know it's right? It is not right yet."
+  description: "Pip draws a map of nowhere in particular."
+  characters: [pip, marlow]
+"19900309":
+  transcript: "Today the wind is perfect. Perfect for what? For my kite! It has never once flown. That is what makes today special."
+  description: "Pip carries a kite out to the hill. Marlow doubts it will fly."
+  characters: [pip, marlow]
+  subjects: [kite]
+"19900310":
+  transcript: "Run faster! I am running as fast as a boy can run. Then the kite should be up by now. It is up! It is ... in the oak tree."
+  description: "The kite climbs for a moment, then lands in the branches of the old oak."
+  characters: [pip, marlow]
+  subjects: [kite]
+"19900311":
+  transcript: "I will climb up and get it. You have never climbed anything taller than a sofa. The sofa was very tall."
+  description: "Pip eyes the oak's lowest branch while Marlow counts the ways it could go wrong."
+  characters: [pip, marlow, { heard: mum }]
+  subjects: [kite]
+"19900312":
+  transcript: "We could leave it up there. The kite is happy now. It has found a home. And you have found a ladder? Mum says no."
+  description: "Pip gives up on the climb and waves at the kite in the tree."
+  characters: [pip, marlow, { heard: mum }]
+  subjects: [kite]
+"19900313":
+  transcript: "Miss Hester says we should write about our heroes. Mine is a goose. I am not a hero. Then you are a very good goose."
+  description: "Pip writes his essay about Marlow."
+  characters: [pip, marlow, hester]
+"19900314":
+  transcript: "Wren has a new bicycle with a bell. Ring-ring. Ring-ring. Ring-ring. That is enough bell. It is never enough bell."
+  description: "Wren rides past ringing her new bicycle bell."
+  characters: [wren, pip]
+"19900315":
+  transcript: "I am going to be a pirate when I grow up. Pirates need ships. I will start with a bathtub. The bathtub is not seaworthy. Neither am I."
+  description: "Pip announces a future in piracy."
+  characters: [pip, marlow]
+"19900316":
+  transcript: "The old clock has stopped. It is always right twice a day. Today it is wrong all day. It is very committed."
+  description: "A stopped clock gets Pip's attention."
+  characters: [pip, marlow]
+"19900317":
+  transcript: "The town soup contest has a prize of one golden ladle. I will win it. You do not cook. I am an innovator."
+  description: "Pip announces he will enter the soup contest."
+  characters: [pip, marlow]
+  subjects: [soup]
+"19900318":
+  transcript: "The secret ingredient is jam. Jam is not an ingredient for soup. That is why nobody else will think of it."
+  description: "Pip stirs a pot while Marlow reads the recipe in horror."
+  characters: [pip, marlow]
+  subjects: [soup]
+"19900319":
+  transcript: "The judges are tasting it. Their faces are doing something. Is that good? It is certainly a face."
+  description: "Three judges taste Pip's soup with unreadable expressions."
+  characters: [pip, marlow, hester]
+  subjects: [soup]
+"19900320":
+  transcript: "Second to last! That is almost second. Last place got a ladle too, by mistake. Then we are both winners."
+  description: "Pip finishes near the bottom and still carries off a ladle."
+  characters: [pip, marlow]
+  subjects: [soup]
+"19900321":
+  transcript: "Mum says dinner is in five minutes. I need ten. For what? To stop being hungry. That is not how hunger works."
+  description: "Pip bargains with dinner."
+  characters: [pip, { heard: mum }, marlow]
+"19900322":
+  transcript: "Bram says he has a secret hideout. Where is it? He won't say. How do you know it exists? It has a sign."
+  description: "Pip is sceptical about Bram's hideout."
+  characters: [pip, bram]
+"19900323":
+  transcript: "There is a snail on the path. We should help it across. It is going the other way. Then we should help it back."
+  description: "Pip and Marlow help a snail that did not need helping."
+  characters: [pip, marlow]
+"19900324":
+  transcript: "I made a list of things I am afraid of. It is quite short. The first one is lists."
+  description: "Pip writes a list of fears."
+  characters: [pip, marlow]
+"19900325":
+  transcript: "It has rained for three days. We will build a fort. From what? Everything in the house."
+  description: "Rain keeps Pip indoors, so he starts gathering blankets."
+  characters: [pip, marlow, { heard: dad }]
+"19900326":
+  transcript: "The fort has a door, a window and a moat. The moat is just the dog's water bowl. It is a very small moat."
+  description: "The blanket fort is finished, with Gus's water bowl as a moat."
+  characters: [pip, marlow, gus]
+"19900327":
+  transcript: "Dad wants to know where all the pillows went. Nobody here. Only the pillow castle. He says he can see our feet."
+  description: "Dad peers at a fort with two pairs of feet sticking out."
+  characters: [pip, marlow, dad]
+"19900328":
+  transcript: "Miss Hester has a new hat. Everyone is looking at it. It is a very loud hat. It is saying something."
+  description: "Miss Hester wears a remarkable hat to class."
+  characters: [hester, pip]
+"19900329":
+  transcript: "The mailman says there is nothing for me. He says that every day. Maybe the mail is slow. Maybe it is for the goose."
+  description: "Pip waits at the mailbox."
+  characters: [pip, marlow]
+"19900330":
+  transcript: "My shadow is following me again. It does that. It is rude. It is only doing its job."
+  description: "Pip complains about his shadow."
+  characters: [pip, marlow]
+"19900331":
+  transcript: "I think the dog is smarter than me. Gus? He knows where the biscuits are. So do you. He remembers."
+  description: "Pip compares himself to Gus."
+  characters: [pip, gus, marlow]
+"19900401":
+  transcript: "Wren is building a volcano for the science fair. It is going to be the best one. Mine is a potato. That is not a science."
+  description: "Wren shows Pip her half-built volcano; Pip has a potato."
+  characters: [pip, wren]
+"19900402":
+  transcript: "My potato has a battery in it. It is a battery potato. Hester says that is called an experiment."
+  description: "Pip wires a potato to a lightbulb and Miss Hester takes notes."
+  characters: [pip, hester]
+  subjects: [potato]
+"19900403":
+  transcript: "The volcano is erupting! A little too well. It is on the ceiling. Nobody panic. Everyone is panicking."
+  description: "Wren's volcano covers the gym ceiling in red foam."
+  characters: [pip, wren, marlow]
+"19900404":
+  transcript: "First prize goes to the volcano. Second to the potato. I told you it was science. You told everyone."
+  description: "Wren wins first and Pip takes second with his potato."
+  characters: [pip, wren]
+  subjects: [potato]
+"19900405":
+  transcript: "Wren lets me hold the ribbon. It is very shiny. Do not lick it. I would never. ... I licked it."
+  description: "Pip examines Wren's blue ribbon more closely than he should."
+  characters: [pip, wren, marlow]
+"19900406":
+  transcript: "If I dig deep enough I will reach the other side of the world. Then what? Then I will have dug a hole."
+  description: "Pip digs in the garden."
+  characters: [pip, marlow]
+  subjects: [sandcastle]
+"19900407":
+  transcript: "The tide is coming in. The castle will be gone. Not if I put the moat further out. That's the sea. It is a bigger moat."
+  description: "Pip builds a sandcastle too close to the water."
+  characters: [pip, marlow]
+  subjects: [sandcastle]
+"19900408":
+  transcript: "Wren says my sandcastle is a heap. It has a flag. A heap with a flag is a nation."
+  description: "Pip defends a lopsided sandcastle."
+  characters: [pip, wren, marlow]
+  subjects: [sandcastle]
+"19900409":
+  transcript: "There are exactly four chairs and five people. Who sits on the floor? The goose. Why the goose? Geese like floors."
+  description: "Marlow ends up on the floor for the chair count."
+  characters: [pip, marlow, dad, mum]
+"19900410":
+  transcript: "Marlow? Marlow, where did you go? I am right here. Oh good. Don't do that."
+  description: "Pip loses sight of Marlow behind a hedge and panics."
+  characters: [pip, marlow]
+"19900411":
+  transcript: "I have looked everywhere. In the shed, in the well, under Dad's chair. You looked under the chair for a goose? It seemed likely."
+  description: "Pip searches the house while Marlow watches from a shelf."
+  characters: [pip, marlow, dad]
+"19900412":
+  transcript: "There you are. I was on the shelf the whole time. You were looking at the floor. The floor is where things go."
+  description: "Marlow had been on the shelf all along."
+  characters: [pip, marlow]
+"19900413":
+  transcript: "I am going to stay up all night. You said that last night. And I stayed up. You fell asleep at seven. I was resting my eyes."
+  description: "Pip swears he will stay up late."
+  characters: [pip, marlow]
+"19900414":
+  transcript: "The new student is called Ferdinand. It sounds like a king. He is eight. That is a small king."
+  description: "A new boy joins Miss Hester's class."
+  characters: [pip, hester, { mentioned: wren }]
+"19900415":
+  transcript: "What is the best thing about autumn? The leaves. What is the worst? Raking the leaves. So we stop at the best."
+  description: "Pip enjoys leaves, not the raking."
+  characters: [pip, marlow, { heard: dad }]
+"19900416":
+  transcript: "I wrote a song. It has one note. It is a long note. It goes on a while. Is it finished? It's not that kind of song."
+  description: "Pip sings one very long note."
+  characters: [pip, marlow]
+"19900417":
+  transcript: "Everyone is bringing cakes to the bake sale. I am bringing a cake shaped like a cake. That is just a cake. It is a statement."
+  description: "Pip plans an unambitious cake for the bake sale."
+  characters: [pip, marlow]
+"19900418":
+  transcript: "The cake is leaning. It is leaning a lot. Perhaps it needs a second tier. It needs a second oven."
+  description: "Pip's cake lists badly to one side."
+  characters: [pip, marlow, { mentioned: mum }]
+"19900419":
+  transcript: "Gus has eaten the cake. All of it. He is smiling. He knows what he did."
+  description: "Gus has eaten the cake and looks proud of it."
+  characters: [pip, gus, marlow]
+"19900420":
+  transcript: "We sold the plate for fifty cents. Someone wanted a plate. People are strange. We should sell more plates."
+  description: "Pip sells the empty plate to a customer."
+  characters: [pip, marlow, hester]
+"19900421":
+  transcript: "Dad is lost. He is driving in circles. He says he is exploring. We passed the same cow three times. It is a very popular cow."
+  description: "A family drive goes nowhere."
+  characters: [dad, pip, marlow]
+"19900422":
+  transcript: "My umbrella has a hole in it. So it is a sieve. Sieves do not keep rain off. They make it smaller."
+  description: "Pip defends his broken umbrella."
+  characters: [pip, marlow]
+"19900423":
+  transcript: "Mum is knitting a scarf. How long is it? It is longer than the house. When will it be done? When it reaches the road."
+  description: "Mum's scarf grows past reason."
+  characters: [mum, pip]
+"19900424":
+  transcript: "There are two kinds of people: those who like toast and those who are wrong. Which kind are you? I made the toast."
+  description: "Pip rates people by their toast."
+  characters: [pip, marlow]
+"19900425":
+  transcript: "I bet you cannot stay quiet for a whole day. I bet I can. Starting now. ... Starting now. ... Hello? You said now."
+  description: "Bram dares Pip to keep quiet for a day."
+  characters: [pip, bram]
+"19900426":
+  transcript: "Pip has been quiet for six hours. That is a record. He has gone purple. It is a good record."
+  description: "Pip holds his breath of words while Marlow watches him turn colour."
+  characters: [pip, bram, marlow]
+"19900427":
+  transcript: "Seven hours. Bram owes me a sandwich. Bram says he never made a bet. We have it on paper. It is a napkin."
+  description: "Pip waves a napkin contract in Bram's face."
+  characters: [pip, bram, marlow]
+"19900428":
+  transcript: "The postman delivered a parcel for the goose. It is a hat. It says to Marlow, with love. From who? It doesn't say."
+  description: "Marlow gets a mysterious parcel."
+  characters: [marlow, pip]
+"19900429":
+  transcript: "Bram has stolen my ball again. He says it fell in his pocket. It rolled into his pocket? It was very determined."
+  description: "Bram pockets Pip's ball."
+  characters: [pip, bram]

@@ -1,0 +1,26 @@
+people:
+  ada:
+    name: Ada Quill
+    links:
+      - title: Example encyclopedia
+        href: https://example.com/people/ada-quill
+  basil:
+    name: Basil Fenn
+runs:
+  - from: 19900305
+    to: 19900429
+    by:
+      - { id: ada, role: story }
+      - { id: basil, role: art }
+  - from: 19910107
+    by: [ada]
+    days: sunday
+  - from: 19910107
+    by: [basil]
+    days: daily
+strips:
+  19900311:
+    - { id: basil, role: art }
+specials:
+  pipalt1: [ada]
+  marlowsolo: [basil]

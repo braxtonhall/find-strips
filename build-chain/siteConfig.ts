@@ -28,15 +28,27 @@ export interface SiteConfig {
 }
 
 /**
+ * The `.env` file a configuration reads: the one `SITE_ENV_FILE` names, relative to where it runs
+ * (`--env-file` sets it), else `.env` in the configuration's own folder.
+ */
+export function envFilePath(config = configPath()): string {
+	const named = (process.env.SITE_ENV_FILE ?? "").trim();
+	return named ? path.resolve(named) : path.join(path.dirname(config), ".env");
+}
+
+/**
  * Reads the `.env` file without mutating `process.env`, so the value can be re-read fresh on every
  * compilation (which lets `--watch` pick up edits to `.env`). A non-empty value already in the
  * process environment — as CI supplies it — takes precedence over the file.
  */
-function readDotenvFile(): Record<string, string> {
+function readDotenvFile(config: string): Record<string, string> {
+	const file = envFilePath(config);
 	let contents: string;
 	try {
-		contents = fs.readFileSync(path.join(process.cwd(), ".env"), "utf8");
+		contents = fs.readFileSync(file, "utf8");
 	} catch {
+		// The default `.env` is optional; one that was named is not.
+		if (process.env.SITE_ENV_FILE?.trim()) throw new Error(`The env file ${file} could not be read`);
 		return {};
 	}
 
@@ -390,7 +402,7 @@ function readConfig(file = configPath()): RawConfig {
 	const schema = importSchema({ file, importing: [], lazy: true });
 	const parsed = yaml.load(fs.readFileSync(file, "utf8"), { schema, filename: file }) ?? {};
 	if (typeof parsed !== "object" || Array.isArray(parsed)) throw new Error(`${file} must be a mapping`);
-	return substituteAll(parsed, readDotenvFile()) as RawConfig;
+	return substituteAll(parsed, readDotenvFile(path.resolve(file))) as RawConfig;
 }
 
 /**
@@ -418,7 +430,7 @@ export function configDependencies(config = configPath()): ConfigDependencies {
 		}
 	};
 	visit(readConfig(config));
-	dependencies.files.push(path.join(process.cwd(), ".env"));
+	dependencies.files.push(envFilePath(config));
 	return dependencies;
 }
 

@@ -1,0 +1,15 @@
+pipalt1:
+  title: March 10, 1990 Alternate Strip
+  date: "19900310"
+  format: ink
+  transcript: ""
+  description: An unpublished version of the day's strip. Pip draws a face on a potato and Marlow pretends not to notice.
+  characters: [pip, marlow]
+  subjects: [potato]
+marlowsolo:
+  title: Marlow's Solo Sunday
+  date: "19900401"
+  format: colour
+  transcript: Today the goose is in charge. Of what? Of everything. Even the weather? Especially the weather.
+  description: Marlow declares himself in charge of the day.
+  characters: [marlow, { heard: pip }]

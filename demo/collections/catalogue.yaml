@@ -1,0 +1,26 @@
+id: catalogue
+name: The Art of the Demo
+subtitle: Catalogue
+pub_year: 2022
+pub_month: 5
+isbn:
+  - 978-0-00-000004-4
+colour: true
+sundays: true
+notes:
+  - A catalogue of Sundays with their original ink.
+extras:
+  - Front cover art
+image: !Path ./covers/catalogue.png
+
+pages:
+  10: [{ ink: 19900311 }]
+  11: [19900311]
+  12: [{ ink: 19900318 }]
+  13: [19900318]
+  14: [{ ink: 19900325 }]
+  15: [19900325]
+  16: [{ ink: 19900401 }]
+  17: [19900401]
+  18: [{ ink: 19900408 }]
+  19: [19900408]

@@ -1,0 +1,31 @@
+# How the search scores a match. Every setting is required: the right values depend on the
+# archive's text, so there are no defaults to fall back on. These are the engine's reference values,
+# so the demo behaves like an ordinary archive. Fit your own with a tuning harness over `loadSite`.
+
+sequenceWeight: 1
+runWeight: 2
+transcriptRepeatWeight: 0.25
+descriptionRepeatWeight: 0
+repeatVariety: 1
+rarityExponent: 1.25
+exactWeight: 1
+prefixWeight: 0
+transcriptCoverageFloor: 0.4
+descriptionCoverageFloor: 0.05
+transcriptLengthForgiveness: 1
+descriptionLengthForgiveness: 1
+transcriptLiteralShare: 0.2
+descriptionLiteralShare: 0.2
+descriptionMinMass: 2.5
+descriptionMassNormalization: 1
+transcriptLengthNormalization: 0
+descriptionLengthNormalization: 0.1
+transcriptIdfFloor: 0.5
+descriptionIdfFloor: 1
+transcriptInflectionWeight: 0.1
+descriptionInflectionWeight: 0.7
+descriptionPreference: 0.7
+agreementBonus: 0.15
+fieldLending: 0
+transcriptLendingReach: 0
+descriptionLendingReach: 0

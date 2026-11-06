@@ -1,0 +1,31 @@
+kiteflight:
+  description: "Pip's kite gets stuck in the old oak."
+  dates: ["19900309", "19900310", "19900311", "19900312"]
+
+soupcontest:
+  description: "Pip enters the town soup contest."
+  dates: ["19900317", "19900318", "19900319", "19900320"]
+
+rainyfort:
+  description: "A rainy afternoon becomes a blanket fort."
+  dates: ["19900325", "19900326", "19900327"]
+
+sciencefair:
+  description: "Wren's volcano wins the science fair."
+  dates: ["19900401", "19900402", "19900403", "19900404", "19900405"]
+
+lostgoose:
+  description: "Marlow goes missing on the way home."
+  dates: ["19900410", "19900411", "19900412"]
+
+bakesale:
+  description: "The school bake sale goes wrong."
+  dates: ["19900417", "19900418", "19900419", "19900420"]
+
+brambet:
+  description: "Bram bets Pip he cannot go a day without talking."
+  dates: ["19900425", "19900426", "19900427"]
+
+moonwalk:
+  description: "A midnight walk to see the moon."
+  dates: ["19910109", "19910110", "19910111"]
