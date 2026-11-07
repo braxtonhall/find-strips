@@ -1,5 +1,6 @@
 import type { Compounds, SearchResult, Tuning } from "../src/search";
 import type { SortMode } from "../src/types";
+import { isolated } from "./isolated";
 import type { Site } from "./siteImpl";
 
 declare function require(id: string): unknown;
@@ -13,20 +14,32 @@ export interface SearchOptions {
 
 export interface Search {
 	search(query: string, options?: SearchOptions): SearchResult[];
+	/** The engine's stemmer, as this site's search applies it. */
+	stem: typeof import("../src/stem").stem;
+	/** The engine's parser, with the filters this site's configuration has. */
+	parseQuery: typeof import("../src/boolean-query").parseQuery;
+	parseDateExpression: typeof import("../src/date-query").parseDateExpression;
 }
 
 /**
- * A search over a site's strips. The engine reads the strips from module-wide state, so this installs
- * them there: there is one archive per process, and creating a search over another replaces the first.
- *
- * The engine's modules read their configuration when first loaded (see `loadSite`), so a `Site` from
- * `loadSite` should exist before this is called; or `SITE_CONFIG` must be set, as the test scripts do.
+ * A search over a site's strips. It has an engine of its own, read with the site's configuration, and
+ * holds the strips itself, so the order of imports does not matter and a process can hold a search
+ * over each of several sites. A site without a `source` (one that was not made by `loadSite`) is read
+ * with the process's `SITE_CONFIG`, as the test scripts set it.
  */
 export function createSearch(
-	site: Pick<Site, "comics" | "descriptions"> & Partial<Pick<Site, "tuning" | "compounds">>,
+	site: Pick<Site, "comics" | "descriptions"> & Partial<Pick<Site, "tuning" | "compounds" | "source">>,
 ): Search {
-	const engine = require("../src/search") as typeof import("../src/search");
-	const { state } = require("../src/state") as typeof import("../src/state");
+	const { engine, state, stem, parseQuery, parseDateExpression } = isolated(
+		() => ({
+			engine: require("../src/search") as typeof import("../src/search"),
+			state: (require("../src/state") as typeof import("../src/state")).state,
+			stem: (require("../src/stem") as typeof import("../src/stem")).stem,
+			parseQuery: (require("../src/boolean-query") as typeof import("../src/boolean-query")).parseQuery,
+			parseDateExpression: (require("../src/date-query") as typeof import("../src/date-query")).parseDateExpression,
+		}),
+		site.source,
+	);
 	state.comics = site.comics;
 	state.descriptions = site.descriptions;
 	const compounds: Compounds = site.compounds ?? new Map();
@@ -36,12 +49,11 @@ export function createSearch(
 				throw new Error("A search needs a tuning: the site's, or one in the options");
 			return engine.search(query, options.sort ?? "rank", { ...site.tuning, ...options.tuning } as Tuning, compounds);
 		},
+		stem,
+		parseQuery,
+		parseDateExpression,
 	};
 }
 
 export type { Compounds, SearchResult, Tuning, HighlightRange } from "../src/search";
 export type { Comic, SortMode } from "../src/types";
-export { search } from "../src/search";
-export { stem } from "../src/stem";
-export { parseQuery } from "../src/boolean-query";
-export { parseDateExpression } from "../src/date-query";

@@ -4,7 +4,7 @@ import path from "path";
  * The settings the build chain reads from the process's environment: which configuration file it is
  * for, and which env file the configuration reads its `$NAME`s from. They are variables because the
  * modules in `src/` that stand in for the bundle's literals under Node read them as they are
- * imported, before any argument could be passed to them.
+ * imported, before any argument could be passed to them; `isolated` gives each site modules of its own.
  */
 export interface Environment {
 	/** The configuration file, relative to where this runs. */

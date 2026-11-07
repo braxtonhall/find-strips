@@ -29,7 +29,7 @@ export interface BuildResult {
 export async function build(options: BuildOptions): Promise<BuildResult> {
 	const log = options.log ?? ((text: string) => console.log(text));
 	setEnvironment(options);
-	// Loaded now, with the variables set: see `loadSite`.
+	// Loaded now, with the variables set.
 	const { createWebpackConfig } =
 		require("../build-chain/webpackConfig") as typeof import("../build-chain/webpackConfig");
 	const compiler = webpack(createWebpackConfig({ outDir: options.outDir, mode: options.mode ?? "production" }));

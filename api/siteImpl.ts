@@ -1,3 +1,4 @@
+import type { Environment } from "./environment";
 import { loadArcs } from "../build-chain/arcs";
 import { loadCharacters } from "../build-chain/characters";
 import { loadCollectionData } from "../build-chain/collectionPages";
@@ -17,6 +18,8 @@ import type { Compounds, Tuning } from "../src/search";
 
 /** A site as the search and the pages read it, loaded from its configuration. */
 export interface Site {
+	/** Where the site was loaded from, which is what a search over it reads the rest of its configuration from. */
+	source?: Environment;
 	config: PageConfig;
 	/** Every strip, dailies, Sundays and specials, in date order. */
 	comics: Comic[];

@@ -1,4 +1,4 @@
-import { withEnvironment } from "./environment";
+import { isolated } from "./isolated";
 import type { Site } from "./siteImpl";
 
 export type { Site } from "./siteImpl";
@@ -7,18 +7,13 @@ declare function require(id: string): unknown;
 
 /**
  * Reads everything a site's configuration describes, once, and returns it. The build chain's
- * variables are put back when it returns.
- *
- * Some of the engine's modules read the configuration the first time they are loaded and keep what
- * they read — the span of the archive, the tuning, the compounds — which is why this loads them here,
- * with the configuration set, rather than when the API is imported. A process works with one site.
+ * variables are put back when it returns, and the modules that read them are not shared with any
+ * other site, so a process can load as many sites as it likes. See `isolated`.
  */
 export function loadSite(config: string, options: { envFile?: string } = {}): Site {
-	return withEnvironment({ config, envFile: options.envFile }, () => {
+	const environment = { config, envFile: options.envFile };
+	return isolated(() => {
 		const { readSite } = require("./siteImpl") as typeof import("./siteImpl");
-		const site = readSite();
-		// The search reads the configuration as it loads too, so it is loaded here, where it can.
-		require("../src/search");
-		return site;
-	});
+		return { ...readSite(), source: environment };
+	}, environment);
 }

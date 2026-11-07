@@ -65,9 +65,10 @@ const results = search("kite oak", { sort: "rank", tuning: { sequenceWeight: 2 }
 - `build({ config, outDir, mode?, watch?, envFile? })` does what `find-strips build` does.
 - `loadSite(config, { envFile? })` reads everything the configuration describes, once.
 - `check(config, { envFile? })` returns `{ ok, error? }`, as `find-strips check` does.
-- `find-strips/search` has `createSearch(site)` and re-exports `search`, `stem`, `parseQuery` and
-  `parseDateExpression` and their types. A process works with one site: the engine keeps what it reads from
-  the configuration (the span of the archive, the tuning) and the strips it searches in module state.
+- `find-strips/search` has `createSearch(site)`, which returns `search`, `stem`, `parseQuery` and
+  `parseDateExpression` for that site, and their types. Each search reads the site's configuration into an
+  engine of its own, so importing it needs no configuration, the order of calls does not matter, and a process
+  can hold more than one site.
 - `find-strips/testing` has the helpers the engine's own tests use: `buildArchive`, `install`,
   `ENGINE_TUNING`, `withConfig`.
 
