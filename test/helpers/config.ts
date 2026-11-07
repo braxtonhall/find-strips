@@ -11,6 +11,7 @@ export const SAMPLE_THEME = `theme:
   bookmark: "#cc3333"
   neutral: "#dddddd"
   selected: "#000000"
+  bookmarkSelected: "#000000"
   hover: "#ffcc00"
   hoverRow: "#fff8e0"
   match: "#ffff66"

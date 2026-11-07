@@ -338,7 +338,7 @@
 	position: relative;
 }
 .cell--bookmarked.cell--selected {
-	box-shadow: 0 0 0 var(--cell-ring) #000;
+	box-shadow: 0 0 0 var(--cell-ring) var(--bookmark-selected);
 }
 .cell--hover-highlight {
 	box-shadow: 0 0 4px 2px var(--hover);
@@ -355,7 +355,7 @@
 }
 .cell--bookmarked.cell--selected.cell--hover-highlight {
 	box-shadow:
-		0 0 0 var(--cell-ring) #000,
+		0 0 0 var(--cell-ring) var(--bookmark-selected),
 		0 0 4px calc(var(--cell-ring) + 2px) var(--hover);
 }
 

@@ -108,6 +108,7 @@ export function themeProperties(theme: Theme): Record<string, string> {
 		neutral: theme.neutral,
 		"neutral-faded": faded(theme.neutral, theme.background),
 		selected: theme.selected,
+		"bookmark-selected": theme.bookmarkSelected,
 		hover: theme.hover,
 		"hover-row": theme.hoverRow,
 		match: theme.match,

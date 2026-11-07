@@ -20,6 +20,7 @@ const ORIGINAL_THEME = `theme:
   bookmark: "#fe7900"
   neutral: "#e0e0e0"
   selected: "#e6052f"
+  bookmarkSelected: "#000000"
   hover: "#ffd700"
   hoverRow: "#fff8e1"
   match: "#fff176"
@@ -87,6 +88,7 @@ function fullThemeExcept(left?: string): string {
 		"bookmark",
 		"neutral",
 		"selected",
+		"bookmarkSelected",
 		"hover",
 		"hoverRow",
 		"match",

@@ -52,13 +52,15 @@ theme:
   # by a fifth where it is text.
   main: "#3b7ddd"
   # A bookmarked day.
-  bookmark: "#e0612b"
+  bookmark: "#d62828"
   # A day with no new strip — a rerun, or none at all — and the lines and panels around the page.
   neutral: "#dfe3ea"
   # The ring around the day that is open, and the outline of a book's links out.
   selected: "#c2185b"
+  # The ring around a bookmarked day that is open, which would be lost against the bookmark's own colour.
+  bookmarkSelected: "#d500f9"
   # The glow around a day while its search result is pointed at, and that result's row.
-  hover: "#ffd700"
+  hover: "#dbe7ff"
   hoverRow: "#fff8e1"
   # The words a search found in a strip's text, and the ones it found only approximately.
   match: "#fff176"

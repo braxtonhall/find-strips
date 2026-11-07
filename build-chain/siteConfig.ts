@@ -804,6 +804,7 @@ export interface Theme {
 	textMuted: string;
 	main: string;
 	bookmark: string;
+	bookmarkSelected: string;
 	neutral: string;
 	selected: string;
 	hover: string;
@@ -818,6 +819,7 @@ const THEME_KEYS: readonly (keyof Theme)[] = [
 	"textMuted",
 	"main",
 	"bookmark",
+	"bookmarkSelected",
 	"neutral",
 	"selected",
 	"hover",
