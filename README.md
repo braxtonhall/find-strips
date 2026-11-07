@@ -21,7 +21,7 @@ To use it for your own strip, depend on a tag of this repository and give it you
 
 ```json
 {
-	"devDependencies": { "find-strips": "github:braxtonhall/find-strips#0.1.0" },
+	"devDependencies": { "find-strips": "github:braxtonhall/find-strips#0.2.0" },
 	"scripts": {
 		"build": "find-strips build config.yaml dist",
 		"serve": "find-strips serve dist"

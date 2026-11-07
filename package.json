@@ -1,6 +1,6 @@
 {
 	"name": "find-strips",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Builds a searchable, prerendered archive of a comic strip from YAML.",
 	"license": "MIT",
 	"repository": {
